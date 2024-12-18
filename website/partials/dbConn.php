@@ -1,8 +1,14 @@
 <?php
-$servername = "mysql:host=localhost;dbname=ecommerceDB";
+session_start();
+ob_start();
+
+$servername = "localhost";
 $username = "root";
 $password = "";
+$dbname = "ecommerceDB";
 
-$conn = new PDO($servername, $username, $password);
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-?>
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}

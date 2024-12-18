@@ -16,8 +16,10 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-black">
         <div class="container-fluid">
-            <img class="navbar-brand mr-2" src="img/shopLogo.svg" alt="logo" />
-            <div class="text-light p-0 mr-4 navbar-brand"><b>KAMIFOLD</b></div>
+            <div class="text-light p-0 mr-4 navbar-brand">
+                <img class="navbar-brand mr-2" src="img/shopLogo.svg" alt="logo" />
+                <b>KAMIFOLD</b>
+            </div>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -26,9 +28,9 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto d-flex flex-row mt-3 mt-lg-0">
+                <ul class="navbar-nav me-auto d-flex flex-lg-row mt-3 mt-lg-0">
                     <li class="nav-item text-center mx-1 mx-lg-1">
-                        <a class="nav-link pt-2 pb-2" href="#!">
+                        <a class="nav-link pt-2 pb-2" href="/ecommerce_project/website/index.php">
                             <div>
                                 <i class="fas fa-home fa-lg"></i>
                                 Home
@@ -96,22 +98,28 @@
                     </li>
                 </ul>
 
-                <ul class="navbar-nav ms-auto d-flex flex-row mt-3 mt-lg-0">
+                <ul class="navbar-nav ms-auto d-flex flex-lg-row mt-3 mt-lg-0">
 
-                    <?php include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/login.php" ?>
+                    <?php
+                    if (!isset($_SESSION["user"])) {
+                        include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/login.php";
+                    } else {
+                        include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/userDropdown.php";
+                    }
+                    ?>
                     <li class="nav-item text-center mx-2 mx-lg-1">
                         <a class="nav-link pt-2 pb-2" href="#!">
                             <div>
                                 <i class="fas fa-cart-shopping"></i>
                                 Cart
                                 <span class="badge rounded-pill badge-notification bg-primary" id="cartItems">0</span>
-                                
+
                             </div>
                         </a>
                     </li>
                 </ul>
-                <form class="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0">
-                    <input type="search" class="form-control" placeholder="Search" aria-label="Search" />
+                <form class="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0" action="" method="get">
+                    <input name="search" type="search" class="form-control" placeholder="Search" aria-label="Search" />
                     <button class="btn btn-primary" id="searchButton" type="button">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
