@@ -9,14 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" rel="stylesheet">
     <link href="/ecommerce_project/website/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/ecommerce_project/website/css/style.css">
+    <link href="/ecommerce_project/website/css/style.css" rel="stylesheet">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-black">
         <div class="container-fluid">
-            <img class="navbar-brand ms-auto" src="imgs/shopLogo1.svg" alt="logo" />
+            <img class="navbar-brand mr-2" src="img/shopLogo.svg" alt="logo" />
+            <div class="text-light p-0 mr-4 navbar-brand"><b>KAMIFOLD</b></div>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -27,7 +28,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto d-flex flex-row mt-3 mt-lg-0">
                     <li class="nav-item text-center mx-1 mx-lg-1">
-                        <a class="nav-link active pt-2 pb-2" href="#!">
+                        <a class="nav-link pt-2 pb-2" href="#!">
                             <div>
                                 <i class="fas fa-home fa-lg"></i>
                                 Home
@@ -96,45 +97,15 @@
                 </ul>
 
                 <ul class="navbar-nav ms-auto d-flex flex-row mt-3 mt-lg-0">
-                    <li class="nav-item dropdown text-center mx-2 mx-lg-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <div>
-                                <i class="fas fa-user fa-lg mb-3"></i>
-                                Login
-                            </div>
-                        </a>
-                        <div class="dropdown-menu p-3" aria-labelledby="loginDropdown">
-                            <form>
-                                <div class="form-group mb-3">
-                                    <label for="exampleDropdownFormEmail1">Email address</label>
-                                    <input type="email" class="form-control" id="exampleDropdownFormEmail1"
-                                        placeholder="email@example.com">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="exampleDropdownFormPassword1">Password</label>
-                                    <input type="password" class="form-control" id="exampleDropdownFormPassword1"
-                                        placeholder="Password">
-                                </div>
-                                <div class="form-check mb-3 custom-checkbox">
-                                    <input type="checkbox" class="form-check-input" id="dropdownCheck">
-                                    <label class="form-check-label" for="dropdownCheck">
-                                        Remember me
-                                    </label>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Sign in</button>
-                            </form>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Click here to create an account</a>
-                        </div>
-                    </li>
 
+                    <?php include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/login.php" ?>
                     <li class="nav-item text-center mx-2 mx-lg-1">
                         <a class="nav-link pt-2 pb-2" href="#!">
                             <div>
-                                <i class="fas fa-cart-shopping fa-lg mb-3"></i>
-                                <bad class="badge rounded-pill badge-notification bg-primary" id="cartItems">0</span>
-                                    Cart
+                                <i class="fas fa-cart-shopping"></i>
+                                Cart
+                                <span class="badge rounded-pill badge-notification bg-primary" id="cartItems">0</span>
+                                
                             </div>
                         </a>
                     </li>
