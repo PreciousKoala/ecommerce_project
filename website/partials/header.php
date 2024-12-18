@@ -102,7 +102,7 @@
 
                     <?php
                     if (!isset($_SESSION["user"])) {
-                        include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/login.php";
+                        include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/loginDropdown.php";
                     } else {
                         include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/userDropdown.php";
                     }

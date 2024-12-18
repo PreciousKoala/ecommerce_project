@@ -59,7 +59,10 @@ include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/header.
 
     <?php
     if (isset($_SESSION["register_error"])) {
-        echo '<div class="alert alert-danger rounded">' . $_SESSION["register_error"] . '</div>';
+        echo '<div class="alert alert-danger rounded alert-dismissible fade show" role="alert">'
+            . $_SESSION["register_error"] .
+            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
     }
     ?>
 

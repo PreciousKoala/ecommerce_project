@@ -1,4 +1,4 @@
-<li class="nav-item dropdown text-center mx-2 mx-lg-1 rounded border border-1 border-black">
+<li class="nav-item dropdown text-center mx-2 mx-lg-1 rounded">
     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
         aria-expanded="false">
         <div>
@@ -7,15 +7,15 @@
         </div>
     </a>
     <ul class="dropdown-menu rounded border-1 border-black" aria-labelledby="userDropdown">
-        <li><a class="dropdown-item" href="#">
+        <li><a class="dropdown-item" href="/ecommerce_project/website/userProfile.php">
                 <i class="fa-solid fa-address-card"></i>
                 Profile
             </a></li>
-        <li><a class="dropdown-item" href="#">
+        <li><a class="dropdown-item" href="/ecommerce_project/website/userFavorites.php">
                 <i class="fa-solid fa-star"></i>
                 Favorites
             </a></li>
-        <li><a class="dropdown-item" href="#">
+        <li><a class="dropdown-item" href="/ecommerce_project/website/orderHistory.php">
                 <i class="fa-solid fa-clock-rotate-left"></i>
                 Order History
             </a></li>
