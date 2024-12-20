@@ -46,6 +46,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         unset($_SESSION["register_error"]);
 
+        $subject = "Welcome";
+        $body =
+            "<html>
+                <body>
+                    <h1>Welcome, $first_name!</h1>
+                    <p>Thank you for creating an account for our website. We hope you enjoy our catalogue of premium books and materials.</p1>
+                </body>
+            </html>";
         include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/mailer.php";
 
         header("Location: /ecommerce_project/website/index.php");
@@ -58,7 +66,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/header.
 ?>
 
 <main>
-    <div class="container p-5 my-5 rounded border border-2 border-black" id="registerForm">
+    <div class="container p-5 my-5 rounded border border-1 border-secondary" id="registerForm">
         <h1 class="text-center mb-4">Register Account</h1>
 
         <?php
