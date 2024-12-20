@@ -4,11 +4,11 @@ include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/dbConn.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
     $password = $_POST["password"];
-    $first_name = htmlspecialchars(trim($_POST["first_name"]));
-    $last_name = htmlspecialchars(trim($_POST["last_name"]));
-    $country = htmlspecialchars($_POST["country"]);
-    $city = htmlspecialchars($_POST["city"]);
-    $address = htmlspecialchars(trim($_POST["address"]));
+    $first_name = trim($_POST["first_name"]);
+    $last_name = trim($_POST["last_name"]);
+    $country = ($_POST["country"]);
+    $city = $_POST["city"];
+    $address = trim($_POST["address"]);
 
     $sql = "SELECT email FROM users WHERE email = ?";
     $stmt = $conn->prepare($sql);
@@ -45,6 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["user"]["role"] = "user";
 
         unset($_SESSION["register_error"]);
+
+        include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/mailer.php";
+
         header("Location: /ecommerce_project/website/index.php");
         exit();
     }
@@ -54,65 +57,69 @@ $title = "Register Account";
 include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/header.php";
 ?>
 
-<div class="container p-5 my-5 rounded border border-2 border-black" id="registerForm">
-    <h2 class="text-center mb-4">Register Account</h2>
+<main>
+    <div class="container p-5 my-5 rounded border border-2 border-black" id="registerForm">
+        <h1 class="text-center mb-4">Register Account</h1>
 
-    <?php
-    if (isset($_SESSION["register_error"])) {
-        echo '<div class="alert alert-danger rounded alert-dismissible fade show" role="alert">'
-            . $_SESSION["register_error"] .
-            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <?php
+        if (isset($_SESSION["register_error"])) {
+            echo '<div class="alert alert-danger rounded alert-dismissible fade show" role="alert">'
+                . $_SESSION["register_error"] .
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>';
-    }
-    ?>
+        }
+        ?>
 
-    <form action="" method="POST">
-        <div class="mb-3">
-            <label for="email" class="form-label">Email *</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password *</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-        </div>
-        <div class="mb-3">
-            <label for="first_name" class="form-label">First Name *</label>
-            <input type="text" class="form-control" id="first_name" name="first_name" required>
-        </div>
-        <div class="mb-3">
-            <label for="last_name" class="form-label">Last Name *</label>
-            <input type="text" class="form-control" id="last_name" name="last_name" required>
-        </div>
-        <div class="mb-3">
-            <label for="country" class="form-label">Country:</label>
-            <select name="country" id="country" class="form-select" onchange="updateCities(this)">
-                <option value="" selected>Country</option>
-                <?php
-                $curl = curl_init();
-                curl_setopt($curl, CURLOPT_URL, "https://countriesnow.space/api/v0.1/countries");
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                $response = curl_exec($curl);
-                curl_close($curl);
-                $response = json_decode($response, true);
-                foreach ($response["data"] as $index => $countryData) {
-                    $country = $countryData["country"];
-                    echo "<option value='$country' data-index='$index'>$country</option>";
-                }
-                ?>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="city">City:</label>
-            <select name="city" id="city" class="form-select" disabled>
-                <option value="" selected>City</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="address" class="form-label">Address</label>
-            <input type="text" class="form-control" id="address" name="address">
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Register</button>
-    </form>
-</div>
+        <form action="" method="POST">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" name="email" required>
+                <label for="email" class="form-label">Email*</label>
+                <small class="text-muted">Email must be unique</small>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password" name="password" required>
+                <label for="password" class="form-label">Password*</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="first_name" name="first_name" required>
+                <label for="first_name" class="form-label">First Name*</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="last_name" name="last_name" required>
+                <label for="last_name" class="form-label">Last Name*</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select name="country" id="country" class="form-select" onchange="updateCities(this)">
+                    <option value="" selected></option>
+                    <?php
+                    $curl = curl_init();
+                    curl_setopt($curl, CURLOPT_URL, "https://countriesnow.space/api/v0.1/countries");
+                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                    $response = curl_exec($curl);
+                    curl_close($curl);
+                    $response = json_decode($response, true);
+                    foreach ($response["data"] as $index => $countryData) {
+                        $country = $countryData["country"];
+                        echo "<option value='$country' data-index='$index'>$country</option>";
+                    }
+                    ?>
+                </select>
+                <label for="country" class="form-label">Country</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select name="city" id="city" class="form-select" disabled>
+                    <option value="" selected></option>
+                </select>
+                <label for="city">City</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="address" name="address">
+                <label for="address" class="form-label">Address</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+            <small class="text-muted">*Required fields</small>
+        </form>
+    </div>
+</main>
 
 <?php include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/footer.php"; ?>

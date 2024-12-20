@@ -6,7 +6,7 @@
             User
         </div>
     </a>
-    <ul class="dropdown-menu rounded border-1 border-black" aria-labelledby="userDropdown">
+    <ul class="dropdown-menu rounded border-1 border-secondary" aria-labelledby="userDropdown">
         <li><a class="dropdown-item" href="/ecommerce_project/website/userProfile.php">
                 <i class="fa-solid fa-address-card"></i>
                 Profile

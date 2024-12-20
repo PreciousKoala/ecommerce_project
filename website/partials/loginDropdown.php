@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: .");
             exit();
         } else {
-            $_SESSION["login_error"] = "The password is incorrect";
+            $_SESSION["login_error"] = "The password is incorrect.";
         }
     } else {
         $_SESSION["login_error"] = "This user doesn't exist.";
@@ -40,21 +40,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown"
         aria-expanded="false">
         <div>
-            <i class="fas fa-user fa-lg mb-3"></i>
+        <i class="fa-solid fa-right-to-bracket"></i>
             Login
         </div>
     </a>
-    <div class="dropdown-menu p-3 border border-1 border-black" aria-labelledby="loginDropdown">
+    <div class="dropdown-menu p-3 border border-1 border-secondary" aria-labelledby="loginDropdown">
         <form method="post" action="">
-            <div class="form-group mb-3">
-                <label for="DropdownFormEmail1">Email address</label>
-                <input name="login_email" type="text" class="form-control" id="DropdownFormEmail"
-                    placeholder="email@example.com" required>
+            <div class="form-floating mb-3">
+                <input name="login_email" type="text" class="form-control" id="DropdownFormEmail" required>
+                <label for="DropdownFormEmail">Email address</label>
             </div>
-            <div class="form-group mb-3">
+            <div class="form-floating mb-3">
+                <input name="login_password" type="password" class="form-control" id="DropdownFormPassword" required>
                 <label for="DropdownFormPassword">Password</label>
-                <input name="login_password" type="password" class="form-control" id="DropdownFormPassword"
-                    placeholder="Password" required>
             </div>
             <button type="submit" class="btn btn-primary">Sign in</button>
         </form>

@@ -4,7 +4,7 @@ async function updateCities(selectElement) {
     citySelect.disabled = true;
 
     if (!countryIndex) {
-        citySelect.innerHTML = "<option value='' selected>Pick</option>";
+        citySelect.innerHTML = "<option value='' selected></option>";
         return;
     }
 
@@ -19,7 +19,7 @@ async function updateCities(selectElement) {
         }
 
         const cities = selectedCountry.cities;
-        let options = "<option value='' selected>City</option>";
+        let options = "<option value='' selected></option>";
         options += cities.map(city => `<option value="${city}">${city}</option>`).join("");
         citySelect.innerHTML = options;
         citySelect.disabled = false;
@@ -28,3 +28,5 @@ async function updateCities(selectElement) {
         citySelect.innerHTML = "<option value='' selected>Error loading cities</option>";
     }
 }
+
+

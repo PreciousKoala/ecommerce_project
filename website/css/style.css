@@ -9,11 +9,6 @@ body {
     max-height: 60px;
 }
 
-.bg-green {
-    background-color: green;
-    color: white;
-}
-
 #registerForm {
     width: 35%;
     min-width: 400px;
@@ -35,10 +30,14 @@ body {
     vertical-align: middle;
 }
 
-.custom-checkbox .form-check-input:checked {
-    background-color: green;
-    border-color: green;
+.card {
+    transition: transform 0.3s ease;
 }
+
+.card:hover {
+    transform: scale(1.02);
+}
+ 
 
 .footer {
     color: white;
@@ -50,11 +49,5 @@ body {
         align-items: center;
     }
 
-    .nav-item {
-        margin-bottom: 10px;
-    }
-
-    .form-control {
-        width: 100%;
-    }
 }
+ 

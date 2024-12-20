@@ -6,6 +6,7 @@
     <title><?php echo $title; ?></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/ecommerce_project/website/img/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" rel="stylesheet">
     <link href="/ecommerce_project/website/css/bootstrap.min.css" rel="stylesheet">
@@ -17,7 +18,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-black">
         <div class="container-fluid">
             <div class="text-light p-0 mr-4 navbar-brand">
-                <img class="navbar-brand mr-2" src="img/shopLogo.svg" alt="logo" />
+                <img class="navbar-brand mr-2" src="/ecommerce_project/website/img/favicon.ico" alt="logo" />
                 <b>KAMIFOLD</b>
             </div>
 
@@ -38,7 +39,7 @@
                         </a>
                     </li>
                     <li class="nav-item text-center mx-2 mx-lg-1">
-                        <a class="nav-link pt-2 pb-2" href="#!">
+                        <a class="nav-link pt-2 pb-2" href="/ecommerce_project/website/products.php">
                             <div>
                                 <i class="fa-solid fa-shop"></i>
                                 All
@@ -46,14 +47,14 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown text-center mx-2 mx-lg-1">
-                        <a class="nav-link dropdown-toggle pt-2 pb-2" href="#" id="navbarDropdown1" role="button"
+                        <a class="nav-link dropdown-toggle pt-2 pb-2" href="/ecommerce_project/website/products.php" id="navbarDropdown1" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <div>
                                 <i class="fas fa-scroll fs-lg"></i>
                                 Papers
                             </div>
                         </a>
-                        <ul class="dropdown-menu rounded border-1 border-black" aria-labelledby="navbarDropdown1">
+                        <ul class="dropdown-menu rounded border-1 border-secondary" aria-labelledby="navbarDropdown1">
                             <li><a class="dropdown-item" href="#">All Papers</a></li>
                             <div class="dropdown-divider"></div>
                             <li><a class="dropdown-item" href="#">Best Sellers</a></li>
@@ -64,14 +65,14 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown text-center mx-2 mx-lg-1">
-                        <a class="nav-link dropdown-toggle pt-2 pb-2" href="#" id="navbarDropdown2" role="button"
+                        <a class="nav-link dropdown-toggle pt-2 pb-2" href="/ecommerce_project/website/products.php" id="navbarDropdown2" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <div>
                                 <i class="fas fa-book fs-lg"></i>
                                 Books
                             </div>
                         </a>
-                        <ul class="dropdown-menu rounded border-1 border-black" aria-labelledby="navbarDropdown2">
+                        <ul class="dropdown-menu rounded border-1 border-secondary" aria-labelledby="navbarDropdown2">
                             <li><a class="dropdown-item" href="#">All Books</a></li>
                             <div class="dropdown-divider"></div>
                             <li><a class="dropdown-item" href="#">Best Sellers</a></li>
@@ -81,7 +82,7 @@
                         </ul>
                     </li>
                     <li class="nav-item text-center mx-2 mx-lg-1">
-                        <a class="nav-link pt-2 pb-2" href="#!">
+                        <a class="nav-link pt-2 pb-2" href="/ecommerce_project/website/products.php">
                             <div>
                                 <i class="fa-solid fa-scissors"></i>
                                 Other
@@ -89,7 +90,7 @@
                         </a>
                     </li>
                     <li class="nav-item text-center mx-2 mx-lg-1">
-                        <a class="nav-link pt-2 pb-2" href="#!">
+                        <a class="nav-link pt-2 pb-2" href="/ecommerce_project/website/aboutUs.php">
                             <div>
                                 <i class="fa-solid fa-circle-info"></i>
                                 About Us
@@ -103,8 +104,10 @@
                     <?php
                     if (!isset($_SESSION["user"])) {
                         include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/loginDropdown.php";
-                    } else {
+                    } elseif ($_SESSION["user"]["role"] == "user") {
                         include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/userDropdown.php";
+                    } elseif ($_SESSION["user"]["role"] == "admin") {
+                        include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/adminDropdown.php";
                     }
                     ?>
                     <li class="nav-item text-center mx-2 mx-lg-1">
