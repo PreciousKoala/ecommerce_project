@@ -12,18 +12,20 @@ if (isset($_GET["page"])) {
     $page = intval($_GET["page"]);
 }
 
-if (!isset($_GET["orderBy"])) {
-    $orderBy = "ORDER BY p.sales DESC";
-} elseif ($_GET["orderBy"] == "priceasc") {
-    $orderBy = "ORDER BY p.price ASC";
-} elseif ($_GET["orderBy"] == "pricedesc") {
-    $orderBy = "ORDER BY p.price DESC";
-} elseif ($_GET["orderBy"] == "nameasc") {
-    $orderBy = "ORDER BY p.name ASC";
-} elseif ($_GET["orderBy"] == "namedesc") {
-    $orderBy = "ORDER BY p.name DESC";
+if (!isset($_GET["sortBy"])) {
+    $sortBy = "ORDER BY p.sales DESC";
+} elseif ($_GET["sortBy"] == "new") {
+    $sortBy = "ORDER BY p.created_at DESC";
+} elseif ($_GET["sortBy"] == "priceasc") {
+    $sortBy = "ORDER BY p.price ASC";
+} elseif ($_GET["sortBy"] == "pricedesc") {
+    $sortBy = "ORDER BY p.price DESC";
+} elseif ($_GET["sortBy"] == "nameasc") {
+    $sortBy = "ORDER BY p.name ASC";
+} elseif ($_GET["sortBy"] == "namedesc") {
+    $sortBy = "ORDER BY p.name DESC";
 } else {
-    $orderBy = "ORDER BY p.sales DESC";
+    $sortBy = "ORDER BY p.sales DESC";
 }
 
 if (!isset($_GET["category"])) {
@@ -39,7 +41,7 @@ if (!isset($_GET["category"])) {
 
 
 $sql = "SELECT * FROM products AS p " .
-    $orderBy .
+    $sortBy .
     " LIMIT " . $productsPerPage .
     " OFFSET " . strval(($page - 1) * $productsPerPage);
 $result = $conn->query($sql);
@@ -53,34 +55,50 @@ $totalPages = ceil($totalProducts / $productsPerPage);
 
 
 $title = "Products";
-include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/header.php"; ?>
+include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/header.php";
+?>
 
 <main>
     <div class="container my-5">
         <h1 class="text-center mb-4">Products</h1>
+        
+        <?php
+        include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/filterDropdown.php";;
+        ?>
+
         <div class="row">
             <?php foreach ($products as $product) {
                 $sql = "SELECT image_name FROM images WHERE placement = 1 AND product_id = " . $product["product_id"];
                 $result = $conn->query($sql);
                 $image = $result->fetch_assoc()["image_name"];
 
-                echo '<div class="container-fluid col-md-3 col-sm-6 col-6 m-auto mb-4">
-                <div class="card h-100 border-0">
-                    <img onmouseover="zoomImg(this)" src="/ecommerce_project/website/img/products/' . $image . '" class="card-img-top rounded data-mdb-attribute" alt="image">
-                    <div class="card-body">
-                        <h5 class="card-title">' . $product["name"] . '</h5>
-                        <p class="card-text">' . $product["price"] . '&euro;</p>
-                        <a href="/ecommerce_project/website/productInfo.php?id=' . $product["id"] . '"class="stretched-link"></a>
-                    </div>
-                </div>
-                
+                $outOfStock = "";
+                $gray = "";
+                if ($product["stock"] == 0) {
+                    $outOfStock = "<p class='text-danger'>OUT OF STOCK</p>";
+                    $gray = "img-gray";
+                }
 
-            </div>';
+                echo
+                '<div class="container-fluid col-md-3 col-sm-6 col-6 mb-4">
+                    <div class="card card-zoom h-100 border-0">
+                        <div class="card-body">
+                            <img onmouseover="zoomImg(this)" src="/ecommerce_project/website/img/products/' . $image . '" 
+                                class="card-img-top mb-3 rounded ' . $gray . '" alt="image">
+                            <h6 class="card-title text-start">' . $product["name"] . '</h6>
+                            <h5 class="card-text">' . $product["price"] . '&euro;</h5>'
+                            . $outOfStock .
+                            '<a href="/ecommerce_project/website/productInfo.php?id=' . $product["id"] . '"class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>';
             }
-            include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/pagination.php";
             ?>
         </div>
     </div>
+    <?php
+    include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/pagination.php";
+    ?>
 </main>
 
 

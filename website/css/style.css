@@ -30,14 +30,17 @@ body {
     vertical-align: middle;
 }
 
-.card {
+.card-zoom {
     transition: transform 0.3s ease;
 }
 
-.card:hover {
+.card-zoom:hover {
     transform: scale(1.02);
 }
- 
+
+.img-gray {
+    filter: grayscale(100%);
+}
 
 .footer {
     color: white;
@@ -50,4 +53,3 @@ body {
     }
 
 }
- 
