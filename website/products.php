@@ -1,5 +1,5 @@
 <?php
-include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/dbConn.php";
+include "../config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -29,48 +29,79 @@ if (!isset($_GET["sortBy"])) {
 }
 
 if (!isset($_GET["category"])) {
-    $category = "";
+    $categoryWhere = "";
 } elseif ($_GET["category"] == "other") {
-    $category = "p.category = 'Other'";
+    $categoryWhere = "p.category = 'Other'";
 } elseif ($_GET["category"] == "paper") {
-    $category = "p.category = 'Paper'";
+    $categoryWhere = "p.category = 'Paper'";
 } elseif ($_GET["category"] == "book") {
-    $category = "p.category = 'Book'";
+    $categoryWhere = "p.category = 'Book'";
 }
 
+$tagsWhere = "";
+$tagsJoin = "";
+if (isset($_GET["tag"])) {
+    $tagsJoin = "JOIN productTags AS pt ON p.product_id = pt.product_id JOIN tags AS t ON pt.tag_id = t.tag_id";
+    $tagsWhere = "(";
+    foreach ($_GET["tag"] as $tag) {
+        $tagsWhere .= "t.tag_id = " . $tag . " OR ";
+    }
+    $tagsWhere = substr($tagsWhere, 0, -3);
+    $tagsWhere .= ")";
+}
 
+if ($tagsWhere != "" && $categoryWhere != "") {
+    $where = "WHERE " . $tagsWhere . " AND " . $categoryWhere;
+} else if ($tagsWhere != "") {
+    $where = "WHERE " . $tagsWhere;
+} else if ($categoryWhere != "") {
+    $where = "WHERE " . $categoryWhere;
+} else {
+    $where = "";
+}
 
 $sql = "SELECT * FROM products AS p " .
-    $sortBy .
+    $tagsJoin . " " . $where . " " . $sortBy .
     " LIMIT " . $productsPerPage .
     " OFFSET " . strval(($page - 1) * $productsPerPage);
 $result = $conn->query($sql);
 $products = $result->fetch_all(MYSQLI_ASSOC);
 
-
-$sql = "SELECT COUNT(*) AS total FROM products";
+$sql = "SELECT COUNT(*) AS total FROM products AS p " . $tagsJoin . " " . $where;
 $result = $conn->query($sql);
 $totalProducts = $result->fetch_assoc()["total"];
 $totalPages = ceil($totalProducts / $productsPerPage);
 
 
 $title = "Products";
-include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/header.php";
+include ROOT_DIR . "/website/partials/header.php";
 ?>
 
 <main>
     <div class="container my-5">
         <h1 class="text-center mb-4">Products</h1>
-        
-        <?php
-        include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/filterDropdown.php";;
-        ?>
+
+        <div class="row justify-content-between">
+            <?php
+            include ROOT_DIR . "/website/partials/tagDropdown.php";
+            include ROOT_DIR . "/website/partials/filterDropdown.php";
+            ?>
+        </div>
 
         <div class="row">
-            <?php foreach ($products as $product) {
+            <?php
+            if ($totalProducts == 0) {
+                echo "<div class='mt-5 pt-5 display-5 text-center'>Nothing found :(</div>";
+            }
+
+            foreach ($products as $product) {
                 $sql = "SELECT image_name FROM images WHERE placement = 1 AND product_id = " . $product["product_id"];
                 $result = $conn->query($sql);
                 $image = $result->fetch_assoc()["image_name"];
+
+                if (!isset($image)) {
+                    $image = "no-image.png";
+                }
 
                 $outOfStock = "";
                 $gray = "";
@@ -80,15 +111,15 @@ include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/header.
                 }
 
                 echo
-                '<div class="container-fluid col-md-3 col-sm-6 col-6 mb-4">
+                    '<div class="container-fluid col-md-3 col-sm-6 col-6 mb-4">
                     <div class="card card-zoom h-100 border-0">
                         <div class="card-body">
-                            <img onmouseover="zoomImg(this)" src="/ecommerce_project/website/img/products/' . $image . '" 
+                            <img onmouseover="zoomImg(this)" src="' . HTML_ROOT_DIR . '/website/img/products/' . $image . '" 
                                 class="card-img-top mb-3 rounded ' . $gray . '" alt="image">
                             <h6 class="card-title text-start">' . $product["name"] . '</h6>
                             <h5 class="card-text">' . $product["price"] . '&euro;</h5>'
-                            . $outOfStock .
-                            '<a href="/ecommerce_project/website/productInfo.php?id=' . $product["id"] . '"class="stretched-link"></a>
+                    . $outOfStock .
+                    '<a href="' . HTML_ROOT_DIR . '/website/productInfo.php?product_id=' . $product["product_id"] . '"class="stretched-link"></a>
                         </div>
                     </div>
                 </div>';
@@ -97,11 +128,13 @@ include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/header.
         </div>
     </div>
     <?php
-    include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/pagination.php";
+    if ($totalProducts > 0) {
+        include ROOT_DIR . "/website/partials/pagination.php";
+    }
     ?>
 </main>
 
 
 <?php
-include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/footer.php";
+include ROOT_DIR . "/website/partials/footer.php";
 ?>
