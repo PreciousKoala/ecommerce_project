@@ -1,5 +1,5 @@
 <?php
-include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/dbConn.php";
+include "../config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($result->num_rows == 1) {
         $_SESSION["register_error"] = "This email is already in use.";
-        header("Location: /ecommerce_project/website/register.php");
+        header("Location: " . HTML_ROOT_DIR . "/website/register.php");
         exit();
     } elseif (empty($email) || empty($password) || empty($first_name) || empty($last_name)) {
         $_SESSION["register_error"] = "All required fields must be filled.";
@@ -54,15 +54,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p>Thank you for creating an account for our website. We hope you enjoy our catalogue of premium books and materials.</p1>
                 </body>
             </html>";
-        include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/mailer.php";
+        include ROOT_DIR . "/website/partials/mailer.php";
 
-        header("Location: /ecommerce_project/website/index.php");
+        header("Location: " . HTML_ROOT_DIR . "/website/index.php");
         exit();
     }
 }
 
 $title = "Register Account";
-include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/header.php";
+include ROOT_DIR . "/website/partials/header.php";
 ?>
 
 <main>
@@ -82,7 +82,7 @@ include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/header.
             <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="email" name="email" required>
                 <label for="email" class="form-label">Email*</label>
-                <small class="text-muted">Email must be unique</small>
+                <div class="form-text">Email must be unique</div>
             </div>
             <div class="form-floating mb-3">
                 <input type="password" class="form-control" id="password" name="password" required>
@@ -125,9 +125,9 @@ include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/header.
                 <label for="address" class="form-label">Address</label>
             </div>
             <button type="submit" class="btn btn-primary w-100">Register</button>
-            <small class="text-muted">*Required fields</small>
+            <div class="form-text">*Required fields</div>
         </form>
     </div>
 </main>
 
-<?php include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/footer.php"; ?>
+<?php include ROOT_DIR . "/website/partials/footer.php"; ?>

@@ -7,23 +7,23 @@
         </div>
     </a>
     <ul class="dropdown-menu rounded border-1 border-black" aria-labelledby="adminDropdown">
-        <li><a class="dropdown-item" href="/ecommerce_project/website/admin/userManagement.php">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/admin/userManagement.php">
                 <i class="fa-solid fa-users"></i>
                 Manage Users
             </a></li>
-        <li><a class="dropdown-item" href="/ecommerce_project/website/admin/logFiles">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/admin/logFiles">
                 <i class="fa-solid fa-file-lines"></i>
                 View Log Files
             </a></li>
-        <li><a class="dropdown-item" href="/ecommerce_project/website/admin/productManagement.php">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/admin/productManagement.php">
                 <i class="fa-solid fa-boxes-stacked"></i>
                 Manage Products
             </a></li>
-        <li><a class="dropdown-item" href="/ecommerce_project/website/admin/orderManagement.php">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/admin/orderManagement.php">
                 <i class="fa-solid fa-truck"></i>
                 Manage Orders
             </a></li>
-        <li><a class="dropdown-item" href="/ecommerce_project/website/logout.php">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/logout.php">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </a></li>

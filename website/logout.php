@@ -1,5 +1,5 @@
 <?php
-session_start();
+include "../config.php";
 session_unset();
 session_destroy();
-header("Location: /ecommerce_project/website/index.php");
+header("Location: " . HTML_ROOT_DIR . "/website/index.php");

@@ -7,19 +7,19 @@
         </div>
     </a>
     <ul class="dropdown-menu rounded border-1 border-secondary" aria-labelledby="userDropdown">
-        <li><a class="dropdown-item" href="/ecommerce_project/website/userProfile.php">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/user/userProfile.php">
                 <i class="fa-solid fa-address-card"></i>
                 Profile
             </a></li>
-        <li><a class="dropdown-item" href="/ecommerce_project/website/userFavorites.php">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/user/userFavorites.php">
                 <i class="fa-solid fa-star"></i>
                 Favorites
             </a></li>
-        <li><a class="dropdown-item" href="/ecommerce_project/website/orderHistory.php">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/user/orderHistory.php">
                 <i class="fa-solid fa-clock-rotate-left"></i>
                 Order History
             </a></li>
-        <li><a class="dropdown-item" href="/ecommerce_project/website/logout.php">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/logout.php">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </a></li>

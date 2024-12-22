@@ -1,7 +1,8 @@
 <?php
-include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/dbConn.php";
-$title = "Home Page";
-include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/header.php";
+include "../config.php";
 
-include $_SERVER["DOCUMENT_ROOT"] . "/ecommerce_project/website/partials/footer.php";
+$title = "Home Page";
+include ROOT_DIR . "/website/partials/header.php";
+
+include ROOT_DIR . "/website/partials/footer.php";
 ?>

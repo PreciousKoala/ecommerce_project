@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn-primary">Sign in</button>
         </form>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item rounded" href="/ecommerce_project/website/register.php">Click here to create an
+        <a class="dropdown-item rounded" href="<?php echo HTML_ROOT_DIR?>/website/register.php">Click here to create an
             account</a>
         <?php
         if (isset($_SESSION["login_error"])) {

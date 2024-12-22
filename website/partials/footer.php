@@ -2,8 +2,8 @@
     <p>&copy; <a href="https://www.ds.unipi.gr/" target="_blank">KamiFold</a>. All rights reserved.</p>
 </footer>
 
-<script src="/ecommerce_project/website/js/bootstrap.bundle.min.js"></script>
-<script src="/ecommerce_project/website/js/script.js"></script>
+<script src="<?php echo HTML_ROOT_DIR?>/website/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo HTML_ROOT_DIR?>/website/js/script.js"></script>
 </body>
 
 </html>
