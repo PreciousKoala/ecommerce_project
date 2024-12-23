@@ -9,14 +9,18 @@ body {
     max-height: 60px;
 }
 
-#registerForm,
-#productPage {
+.w-35-max {
     width: 35%;
     min-width: 400px;
     margin: 0 auto;
 }
 
-.w-35{
+.w-25-max {
+    width: 35%;
+    min-width: 400px;
+}
+
+.w-35 {
     width: 35%;
 }
 
@@ -24,7 +28,7 @@ img {
     max-width: 100%;
     max-height: 100%;
     aspect-ratio: 1 / 1;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .nav-link.dropdown-toggle {
@@ -53,12 +57,13 @@ img {
 .img-gray {
     filter: grayscale(100%);
 }
-#product_quantity:focus ~ label,
-#product_quantity:not(:placeholder-shown) ~ label {
-  opacity: 0.65;
-  left: 50%;
-  top: 30%;
-  transform: scale(0.85) translate(-50%, -50%);
+
+#product_quantity:focus~label,
+#product_quantity:not(:placeholder-shown)~label {
+    opacity: 0.65;
+    left: 50%;
+    top: 30%;
+    transform: scale(0.85) translate(-50%, -50%);
 }
 
 .footer {

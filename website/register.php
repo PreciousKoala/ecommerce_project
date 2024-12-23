@@ -66,7 +66,7 @@ include ROOT_DIR . "/website/partials/header.php";
 ?>
 
 <main>
-    <div class="container p-5 my-5 rounded border border-1 border-secondary" id="registerForm">
+    <div class="container w-35-max p-5 my-5 rounded border border-1 border-secondary" id="registerForm">
         <h1 class="text-center mb-4">Register Account</h1>
 
         <?php

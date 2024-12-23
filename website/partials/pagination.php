@@ -49,7 +49,7 @@
                     <a class="page-link  disabled">...</a>
                 </li>';
         }
-        if ($page <= $totalPages && $totalPages != 1) {
+        if ($page <= $totalPages && $totalPages > 1) {
             $active = "";
             if ($page == $totalPages) {
                 $active = "active";

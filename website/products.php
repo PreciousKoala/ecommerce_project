@@ -106,8 +106,17 @@ include ROOT_DIR . "/website/partials/header.php";
                 $outOfStock = "";
                 $gray = "";
                 if ($product["stock"] == 0) {
-                    $outOfStock = "<p class='text-danger'>OUT OF STOCK</p>";
+                    $outOfStock = "<h5><span class='badge bg-secondary'>OUT OF STOCK</span></h5>";
                     $gray = "img-gray";
+                }
+
+                $discount = "";
+                $lineThrough = "";
+                if ($product["discount"] > 0 && $product["stock"] != 0) {
+                    $discount = '<h5 class="card-text text-danger">' .
+                        number_format($product["price"] * (1 - $product["discount"]), 2, ".", "") . '&euro;    
+                    <span class="badge bg-danger">' . $product["discount"] * 100 . '% OFF</span></h5>';
+                    $lineThrough = "text-decoration-line-through";
                 }
 
                 echo
@@ -117,9 +126,9 @@ include ROOT_DIR . "/website/partials/header.php";
                             <img onmouseover="zoomImg(this)" src="' . HTML_ROOT_DIR . '/website/img/products/' . $image . '" 
                                 class="card-img-top mb-3 rounded ' . $gray . '" alt="image">
                             <h6 class="card-title text-start">' . $product["name"] . '</h6>
-                            <h5 class="card-text">' . $product["price"] . '&euro;</h5>'
-                    . $outOfStock .
-                    '<a href="' . HTML_ROOT_DIR . '/website/productInfo.php?product_id=' . $product["product_id"] . '"class="stretched-link"></a>
+                            <h5 class="card-text ' . $lineThrough . '">' . $product["price"] . '&euro;</h5>'
+                    . $discount . $outOfStock .
+                    '<a href="' . HTML_ROOT_DIR . '/website/productInfo.php?product_id=' . $product["product_id"] . '" class="stretched-link"></a>
                         </div>
                     </div>
                 </div>';
