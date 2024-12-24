@@ -116,7 +116,7 @@ include ROOT_DIR . "/website/partials/header.php";
             </div>
             <div class="form-floating mb-3">
                 <select name="city" id="city" class="form-select" disabled>
-                    <option value="" selected></option>
+                    <option value="" id="defaultCity" selected></option>
                 </select>
                 <label for="city">City</label>
             </div>

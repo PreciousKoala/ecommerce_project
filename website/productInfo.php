@@ -74,7 +74,7 @@ if (isset($_SESSION["user"])) {
 ?>
 
 <main class="m-3">
-    <div class="display-5 my-2 text-center text-wrap text-break"><?php echo $product["name"] ?></div>
+
 
     <div class="container my-5 row mx-auto">
         <div class="container-fluid col-md-6 col-sm-12 col-12 mb-4">
@@ -128,6 +128,8 @@ if (isset($_SESSION["user"])) {
             </div>
         </div>
         <div class="container-fluid col-md-6 col-sm-12 col-12 mb-4">
+            <div class="display-5 my-2 text-center text-wrap text-break"><?php echo $product["name"] ?></div>
+
             <?php
             $discount = "";
             $lineThrough = "";
@@ -180,7 +182,7 @@ if (isset($_SESSION["user"])) {
             <p class="text-wrap text-break"><?php echo $product["description"] ?></p>
 
         </div>
-        <div class="w-75 mx-auto">
+        <div class="mx-auto">
             <?php
             if (!isset($rating)) {
                 echo "<h5>No Rating</h5>";
@@ -203,8 +205,8 @@ if (isset($_SESSION["user"])) {
                                 <h6 class="text-wrap text-break">' . $review["email"] . '</h6>
                                 <h6>' . $like . '
                                 <small class="text-muted">
-                                    Posted at ' . date("F j Y, g:i A", strtotime($review["created_at"])) . 
-                                '</small><h6>
+                                    Posted at ' . date("F j Y, g:i A", strtotime($review["created_at"])) .
+                            '</small><h6>
                                 <p class="text-wrap text-break">' . $review["body"] . '<p>
                             </div>';
                     }
