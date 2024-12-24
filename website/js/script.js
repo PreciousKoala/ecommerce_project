@@ -34,3 +34,11 @@ async function updateCities(selectElement) {
     citySelect.innerHTML = options;
     citySelect.disabled = false;
 }
+
+var deleteModal = document.getElementById('deleteModal')
+var myInput = document.getElementById('myInput')
+
+myModal.addEventListener('shown.bs.modal', function () {
+  myInput.focus()
+})
+

@@ -9,6 +9,12 @@ body {
     max-height: 60px;
 }
 
+.w-50-max {
+    width: 50%;
+    min-width: 350px;
+    margin: 0 auto;
+}
+
 .w-35-max {
     width: 35%;
     min-width: 350px;
@@ -22,6 +28,14 @@ body {
 
 .w-35 {
     width: 35%;
+}
+
+.w-15-ch-min{
+    min-width: 15ch;
+}
+
+.w-20-ch-min{
+    min-width: 20ch;
 }
 
 img {
