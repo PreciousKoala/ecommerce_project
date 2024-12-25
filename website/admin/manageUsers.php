@@ -4,6 +4,35 @@ include ROOT_DIR . "/website/partials/kickNonAdmins.php";
 $title = "Manage Users";
 include ROOT_DIR . "/website/partials/header.php";
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["deleteButton"])) {
+        $delete_id = intval($_POST["delete_user_id"]);
+
+        $sql = "DELETE FROM users WHERE user_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $delete_id);
+        $stmt->execute();
+    }
+
+    if (isset($_POST["editButton"])) {
+        $edit_id = intval($_POST["edit_user_id"]);
+
+        $first_name = trim($_POST["first_name"]);
+        $last_name = trim($_POST["last_name"]);
+        $country = $_POST["country"];
+        $city = $_POST["city"];
+        $address = trim($_POST["address"]);
+        $role = $_POST["role"];
+
+        $sql = "UPDATE users 
+                SET first_name = ?, last_name = ?, country = ?, city = ?, address = ?, role = ?
+                WHERE user_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssssi", $first_name, $last_name, $country, $city, $address, $role, $edit_id);
+        $stmt->execute();
+    }
+}
+
 $sql = "SELECT * FROM users ORDER BY user_id ASC";
 $result = $conn->query($sql);
 $users = $result->fetch_all(MYSQLI_ASSOC);
@@ -17,12 +46,13 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this user?
+                Are you sure you want to delete user #<span id="deleteModalUserId"></span>?
             </div>
-            <div class="modal-footer">
+            <form method="post" class="modal-footer">
+                <input id="deleteUserId" type="hidden" name="delete_user_id">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger">Delete</button>
-            </div>
+                <button name="deleteButton" type="submit" class="btn btn-danger">Delete</button>
+            </form>
         </div>
     </div>
 </div>
@@ -31,14 +61,14 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit User #<span id="editModalUserId"></span>"</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="editUserForm" action="" method="POST">
+                    <input name="edit_user_id" id="editUserId" type="hidden" value="">
                     <div class="form-floating mb-3">
-                        <input type="email" value="<?php echo $user["email"] ?>" class="form-control" id="email"
-                            name="email" disabled>
+                        <input type="email" value="" class="form-control" id="email" name="email" disabled>
                         <label for="email" class="form-label">Email</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -47,58 +77,40 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
                         <label for="password" class="form-label">Password</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" value="<?php echo $user["first_name"] ?>" class="form-control"
-                            id="first_name" name="first_name" required>
+                        <input type="text" value="" class="form-control" id="first_name" name="first_name" required>
                         <label for="first_name" class="form-label">First Name*</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" value="<?php echo $user["last_name"] ?>" class="form-control" id="last_name"
-                            name="last_name" required>
+                        <input type="text" value="" class="form-control" id="last_name" name="last_name" required>
                         <label for="last_name" class="form-label">Last Name*</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select name="country" id="country" class="form-select" onload="updateCities(this)"
-                            onchange="updateCities(this)">
-                            <option value=""></option>
-                            <?php
-                            $curl = curl_init();
-                            curl_setopt($curl, CURLOPT_URL, "https://countriesnow.space/api/v0.1/countries");
-                            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                            $response = curl_exec($curl);
-                            curl_close($curl);
-                            $response = json_decode($response, true);
-
-                            foreach ($response["data"] as $index => $countryData) {
-                                $country = $countryData["country"];
-                                echo "<option value='$country' data-index='$index'";
-                                if ($user["country"] == $country) {
-                                    echo " selected";
-                                }
-                                echo ">$country</option>";
-                            }
-                            ?>
-                        </select>
+                        <input type="text" value="" class="form-control" id="country" name="country">
                         <label for="country" class="form-label">Country</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select name="city" id="city" class="form-select" disabled>
-                            <option value="<?php echo $user["city"] ?>" id="defaultCity" selected>
-                                <?php echo $user["city"] ?></option>
-                        </select>
+                        <input type="text" value="" class="form-control" id="city" name="city">
                         <label for="city">City</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" value="<?php echo $user["address"] ?>" class="form-control" id="address"
-                            name="address">
+                        <input type="text" value="" class="form-control" id="address" name="address">
                         <label for="address" class="form-label">Address</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select name="role" id="role" class="form-select">
+                            <option value="user">user</option>
+                            <option value="admin">admin</option>
+                        </select>
+                        <label for="role">Role</label>
                     </div>
                     <div class="form-text">*Required fields</div>
                 </form>
             </div>
-            <div class="modal-footer">
+            <form method="POST" class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" form="editUserForm">Save Changes</button>
-            </div>
+                <button name="editButton" type="submit" class="btn btn-primary" form="editUserForm">Save
+                    Changes</button>
+            </form>
         </div>
     </div>
 </div>
@@ -108,7 +120,7 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">user ID</th>
+                    <th scope="col">ID</th>
                     <th scope="col">Email</th>
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
@@ -117,8 +129,8 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
                     <th scope="col">Adress</th>
                     <th scope="col">Creation Date</th>
                     <th scope="col">Role</th>
-                    <th scope="col">Edit User</th>
-                    <th scope="col">Delete User</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -135,12 +147,14 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
                         <td class="text-wrap text-break w-20-ch-min">' . $user["created_at"] . '</td>
                         <td>' . $user["role"] . '</td>
                         <td>
-                            <button class="btn btn-secondary" type="button" data-bs-toggle="modal" data-bs-target="#editModal">
+                            <button id="editButtonModal' . $user["user_id"] . '" class="btn btn-secondary" type="button"
+                             data-bs-toggle="modal" data-bs-target="#editModal" onclick="showDetails(this)">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
                         </td>
                         <td>
-                            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <button id="deleteButtonModal' . $user["user_id"] . '" class="btn btn-danger" type="button"
+                             data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="showUserId(this)">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </td>

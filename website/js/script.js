@@ -35,10 +35,46 @@ async function updateCities(selectElement) {
     citySelect.disabled = false;
 }
 
-var deleteModal = document.getElementById('deleteModal')
-var myInput = document.getElementById('myInput')
+function showDetails(editButton) {
+    var parent = editButton.parentElement.parentElement;
+    var children = parent.children;
 
-myModal.addEventListener('shown.bs.modal', function () {
-  myInput.focus()
-})
+    var user_id = children[0].innerHTML;
+    var email = children[1].innerHTML;
+    var first_name = children[2].innerHTML;
+    var last_name = children[3].innerHTML;
+    var country = children[4].innerHTML;
+    var city = children[5].innerHTML;
+    var address = children[6].innerHTML;
+    var role = children[8].innerHTML;
+    console.log(document.getElementById("role").children[1].innerHTML);
 
+    document.getElementById("editUserId").value = user_id;
+    document.getElementById("email").value = email;
+    document.getElementById("first_name").value = first_name;
+    document.getElementById("last_name").value = last_name;
+    document.getElementById("country").value = country;
+    document.getElementById("city").value = city;
+    document.getElementById("address").value = address;
+
+    var roleSelect = document.getElementById("role").children;
+    for (var i = 0; i < roleSelect.length; i++) {
+        roleSelect[i].removeAttribute("selected");
+    }
+
+    if (role === "user") {
+        roleSelect[0].setAttribute("selected", true);
+    } else if (role === "admin") {
+        roleSelect[1].setAttribute("selected", true);
+    }
+}
+
+function showUserId(deleteButton) {
+    var parent = deleteButton.parentElement.parentElement;
+    var children = parent.children;
+    var user_id = children[0].innerHTML;
+    document.getElementById("deleteModalUserId").innerHTML = user_id;
+    document.getElementById("deleteUserId").value = user_id;
+
+    console.log(user_id);
+}
