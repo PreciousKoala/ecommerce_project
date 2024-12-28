@@ -30,15 +30,15 @@ body {
     width: 35%;
 }
 
-.w-15-ch-min{
+.w-15-ch-min {
     min-width: 15ch;
 }
 
-.w-20-ch-min{
+.w-20-ch-min {
     min-width: 20ch;
 }
 
-.w-25-ch-min{
+.w-25-ch-min {
     min-width: 25ch;
 }
 
@@ -55,14 +55,21 @@ img {
     justify-content: center;
 }
 
-.nav-link.dropdown-toggle i {
-    margin-right: 0.5rem;
+.dropdown-menu{
+    animation: growDown 200ms;
+    z-index: 2000;
+    transform-origin: top center;
 }
 
-.dropdown-toggle::after {
-    margin-left: 0.5rem;
-    vertical-align: middle;
+@keyframes growDown {
+    0% {
+        transform: scaleY(0);
+    }
+    100% {
+        transform: scaleY(1);
+    }
 }
+
 
 .card-zoom {
     transition: transform 0.3s ease;
@@ -94,4 +101,14 @@ img {
         align-items: center;
     }
 
+}
+
+#cartSpan {
+    position: relative;
+}
+
+#cartItems {
+    position: absolute;
+    top: -15px;
+    right: -15px;
 }

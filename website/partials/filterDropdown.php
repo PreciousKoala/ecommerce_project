@@ -1,5 +1,5 @@
-<nav class="col dropdown text-center mx-2 mb-4 mx-lg-1 rounded d-flex flex-row-reverse">
-    <a class="nav-link dropdown-toggle" href="#" id="filterDropdown" role="button" data-bs-toggle="dropdown"
+<nav class="col-auto dropdown text-center mx-2 mx-lg-1 rounded flex-row-reverse">
+    <a class="nav-link dropdown-toggle" href="#" id="filterDropdown" role="button" data-bs-toggle="dropdown" data-bs-display="static"
         aria-expanded="false">
         <div>
             <i class="fa-solid fa-filter"></i>
@@ -21,7 +21,7 @@
 
     $getParams = $categoryGet . $tagGet . $sortByGet;
     ?>
-    <ul class="dropdown-menu rounded border-1 border-secondary" aria-labelledby="filterDropdown">
+    <ul class="dropdown-menu rounded border-1 border-secondary dropdown-menu-end" aria-labelledby="filterDropdown">
         <li><a class="dropdown-item" href="?sortBy=popular<?php echo $getParams; ?>">
                 <i class="fa-solid fa-fire"></i>
                 Best Selling

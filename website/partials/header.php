@@ -101,10 +101,12 @@
                                     href="<?php echo HTML_ROOT_DIR ?>/website/products.php?category=book?sortBy=new">New
                                     Arrivals</a></li>
                             <li><a class="dropdown-item"
-                                    href="<?php echo HTML_ROOT_DIR ?>/website/products.php?category=book&tag[3]=3">JOAS Books</a>
+                                    href="<?php echo HTML_ROOT_DIR ?>/website/products.php?category=book&tag[3]=3">JOAS
+                                    Books</a>
                             </li>
                             <li><a class="dropdown-item"
-                                    href="<?php echo HTML_ROOT_DIR ?>/website/products.php?category=book&tag[4]=4">KOA Books</a>
+                                    href="<?php echo HTML_ROOT_DIR ?>/website/products.php?category=book&tag[4]=4">KOA
+                                    Books</a>
                             </li>
                         </ul>
                     </li>
@@ -139,13 +141,20 @@
                     }
                     ?>
                     <li class="nav-item text-center mx-2 mx-lg-1">
-                        <a class="nav-link pt-2 pb-2" href="#!">
-                            <div>
+                        <a class="nav-link pt-2 pb-2" href="<?php echo HTML_ROOT_DIR ?>/website/cart.php">
+                            <span id="cartSpan" class="me-3">
                                 <i class="fas fa-cart-shopping"></i>
-                                Cart
-                                <span class="badge rounded-pill badge-notification bg-primary" id="cartItems">0</span>
-
-                            </div>
+                                <span class="badge rounded-pill badge-notification bg-primary" id="cartItems">
+                                    <?php
+                                    $cartNum = 0;
+                                    foreach (json_decode($_COOKIE["cart"], true) as $cartItem) {
+                                        $cartNum += $cartItem["quantity"];
+                                    }
+                                    echo $cartNum;
+                                    ?>
+                                </span>
+                            </span>
+                            Cart
                         </a>
                     </li>
                 </ul>

@@ -136,6 +136,10 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
             <tbody>
                 <?php
                 foreach ($users as $user) {
+                    $disabled = "";
+                    if ($_SESSION["user"]["user_id"] == $user["user_id"]) {
+                        $disabled = "disabled";
+                    }
                     echo '<tr>
                         <th scope="row">' . $user["user_id"] . '</th>
                         <td>' . $user["email"] . '</td>
@@ -148,13 +152,13 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
                         <td>' . $user["role"] . '</td>
                         <td>
                             <button id="editButtonModal' . $user["user_id"] . '" class="btn btn-secondary" type="button"
-                             data-bs-toggle="modal" data-bs-target="#editModal" onclick="showDetails(this)">
+                             data-bs-toggle="modal" data-bs-target="#editModal" onclick="showUserDetails(this)">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
                         </td>
                         <td>
                             <button id="deleteButtonModal' . $user["user_id"] . '" class="btn btn-danger" type="button"
-                             data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="showUserId(this)">
+                             data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="showUserId(this)" ' . $disabled . '>
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </td>

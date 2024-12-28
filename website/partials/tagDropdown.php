@@ -1,5 +1,5 @@
-<nav class="col dropdown text-center mx-2 mb-4 mx-lg-1 rounded d-flex">
-    <a class="nav-link dropdown-toggle" href="#" id="tagDropdown" role="button" data-bs-toggle="dropdown"
+<nav class="col-auto dropdown text-center mx-2 mx-lg-1 rounded d-flex">
+    <a class="nav-link dropdown-toggle" href="#" id="tagDropdown" role="button" data-bs-toggle="dropdown" data-bs-display="static"
         data-bs-auto-close="outside" aria-expanded="false">
         <div>
             <i class="fa-solid fa-tags"></i>
@@ -9,7 +9,7 @@
     <form method="get" action="">
         <ul class="dropdown-menu rounded border-1 border-secondary p-3" aria-labelledby="tagDropdown">
             <?php
-            // tag selection is a from, so we put hidden inputs to keep the selected category and sort method 
+            // tag selection is a form, so we put hidden inputs to keep the selected category and sort method 
             if (isset($_GET["category"])) {
                 echo '<input type="hidden" name="category" value="' . $_GET["category"] . '">';
             }
@@ -36,7 +36,7 @@
                         }
                     }
 
-                    echo '<li class="form-check dripdown-item">
+                    echo '<li class="form-check dropdown-item">
                     <input name="tag[' . $tag_id . ']" class="form-check-input" type="checkbox" value="' . $tag_id . '" 
                     id="tag' . $tag_id . '" ' . $tagChecked . '>
                     <label class="form-check-label" for="tag' . $tag_id . '">' . $tag_name . '</label>

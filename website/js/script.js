@@ -35,7 +35,7 @@ async function updateCities(selectElement) {
     citySelect.disabled = false;
 }
 
-function showDetails(editButton) {
+function showUserDetails(editButton) {
     var parent = editButton.parentElement.parentElement;
     var children = parent.children;
 
@@ -47,9 +47,9 @@ function showDetails(editButton) {
     var city = children[5].innerHTML;
     var address = children[6].innerHTML;
     var role = children[8].innerHTML;
-    console.log(document.getElementById("role").children[1].innerHTML);
 
     document.getElementById("editUserId").value = user_id;
+    document.getElementById("editModalUserId").innerHTML = user_id;
     document.getElementById("email").value = email;
     document.getElementById("first_name").value = first_name;
     document.getElementById("last_name").value = last_name;
@@ -57,15 +57,14 @@ function showDetails(editButton) {
     document.getElementById("city").value = city;
     document.getElementById("address").value = address;
 
-    var roleSelect = document.getElementById("role").children;
-    for (var i = 0; i < roleSelect.length; i++) {
-        roleSelect[i].removeAttribute("selected");
-    }
+    var roleOptions = document.getElementById("role").children;
+    roleOptions[0].removeAttribute("selected");
+    roleOptions[1].removeAttribute("selected");
 
     if (role === "user") {
-        roleSelect[0].setAttribute("selected", true);
+        roleOptions[0].setAttribute("selected", true);
     } else if (role === "admin") {
-        roleSelect[1].setAttribute("selected", true);
+        roleOptions[1].setAttribute("selected", true);
     }
 }
 
