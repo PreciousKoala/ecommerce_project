@@ -6,7 +6,7 @@ include ROOT_DIR . "/website/partials/header.php";
 
 $cart = json_decode($_COOKIE["cart"], true);
 $products = array();
-//var_dump($cart);
+
 foreach ($cart as $cartItem) {
     $sql = "SELECT * FROM products WHERE product_id = ?";
     $stmt = $conn->prepare($sql);
@@ -108,25 +108,27 @@ for ($i = 0; $i < count($products); $i++) {
             <div id="cleanDiscount' . $product["product_id"] . '" class="d-none">' . $product["discount"] . '</div>
         </div>';
     }
-    ?>
 
+    if (!empty($products)) {
+        echo '
     <div class="container p-3 my-5 row mx-auto">
         <div class="col-auto ms-auto">
-            <h4 id="finalPrice">
-                <?php
-                $finalPrice = 0;
-                foreach ($products as $product) {
-                    $finalPrice += $product["price"] * $product["quantity"] * (1 - $product["discount"]);
-                }
-                echo "Total: " . number_format($finalPrice, 2, ".", "") . "&euro;";
-                ?>
+            <h4 id="finalPrice">';
+
+        $finalPrice = 0;
+        foreach ($products as $product) {
+            $finalPrice += $product["price"] * $product["quantity"] * (1 - $product["discount"]);
+        }
+        echo "Total: " . number_format($finalPrice, 2, ".", "") . "&euro;";
+        echo '
             </h4>
-            <a class="btn btn-primary p-3" href="<?php echo HTML_ROOT_DIR ?>/website/checkout.php">
+            <a class="btn btn-primary p-3" href="' . HTML_ROOT_DIR . '/website/checkout.php">
                 Checkout
             </a>
         </div>
-    </div>
-
+    </div>';
+    }
+    ?>
 </main>
 
 <?php

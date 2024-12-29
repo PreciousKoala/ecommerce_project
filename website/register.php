@@ -46,14 +46,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         unset($_SESSION["register_error"]);
 
-        $subject = "Welcome";
+        $subject = "Welcome to our website.";
         $body =
             "<html>
                 <body>
                     <h1>Welcome, $first_name!</h1>
-                    <p>Thank you for creating an account for our website. We hope you enjoy our catalogue of premium books and materials.</p1>
+                    <p>Thank you for creating an account for our website. We hope you enjoy our catalogue of premium books and materials.</p>
                 </body>
             </html>";
+        
         include ROOT_DIR . "/website/partials/mailer.php";
 
         header("Location: " . HTML_ROOT_DIR . "/website/index.php");

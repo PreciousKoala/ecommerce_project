@@ -153,6 +153,11 @@ function updateCart(product_id, stock) {
 function removeFromCart(product_id) {
     var cart = JSON.parse(getCookie("cart"));
 
+    if (Object.keys(cart).length == 1){
+        document.getElementById("cartMain").children[0].innerHTML = "Your Cart is Empty";
+        document.getElementById("finalPrice").parentElement.parentElement.remove();
+    }
+
     cart = Object.fromEntries(
         Object.entries(cart).
             filter(([key, value]) =>

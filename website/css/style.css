@@ -55,7 +55,7 @@ img {
     justify-content: center;
 }
 
-.dropdown-menu{
+.dropdown-menu {
     animation: growDown 200ms;
     z-index: 2000;
     transform-origin: top center;
@@ -65,11 +65,11 @@ img {
     0% {
         transform: scaleY(0);
     }
+
     100% {
         transform: scaleY(1);
     }
 }
-
 
 .card-zoom {
     transition: transform 0.3s ease;

@@ -77,3 +77,30 @@ function showUserId(deleteButton) {
 
     console.log(user_id);
 }
+
+function showShippingForm() {
+    document.getElementById("checkoutShipping").classList.remove("d-none");
+    document.getElementById("checkoutPayment").classList.add("d-none");
+}
+
+function showPaymentForm() {
+    document.getElementById("checkoutShipping").classList.add("d-none");
+    document.getElementById("checkoutPayment").classList.remove("d-none");
+    document.getElementById("checkoutConfirm").classList.add("d-none");
+}
+
+function showConfirmForm() {
+    document.getElementById("checkoutPayment").classList.add("d-none");
+    document.getElementById("checkoutConfirm").classList.remove("d-none")
+}
+
+function validateForm(formId) {
+    const form = document.getElementById(formId);
+
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return false;
+    }
+
+    return true;
+}

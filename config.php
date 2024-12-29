@@ -6,9 +6,13 @@ define("ROOT_DIR", __DIR__);
 // removes server document root from ROOT_DIR
 define("HTML_ROOT_DIR", substr(ROOT_DIR, strlen($_SERVER["DOCUMENT_ROOT"])));
 
+// starts session
 session_start();
+
+// used when redirecting the user somewhere
 ob_start();
 
+// connection to mySQL database
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -17,3 +21,17 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+// loads environmental variables from the .env file
+$env = file_get_contents(ROOT_DIR . "/.env");
+$lines = explode("\n", $env);
+
+foreach ($lines as $line) {
+    preg_match("/([^#]+)\=(.*)/", $line, $matches);
+    if (isset($matches[2])) {
+        putenv(trim($line));
+    }
+}
+
+define("MAIL_USER", getenv("MAIL_USER"));
+define("MAIL_PASS", getenv("MAIL_PASS"));
