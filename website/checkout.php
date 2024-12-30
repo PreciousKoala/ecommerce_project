@@ -72,6 +72,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("iiid", $order_id, $product["product_id"], $product["quantity"], $product["price"]);
             $stmt->execute();
+
+            $sql = "UPDATE products SET sales = sales + ?, stock = stock - ? WHERE product_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("iii", $product["quantity"], $product["quantity"], $product["product_id"]);
+            $stmt->execute();
         }
 
         $body = '<html>
@@ -287,7 +292,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         include ROOT_DIR . "/website/partials/mailer.php";
 
-        setcookie("cart", time() - 3600);
+        setcookie("cart", "", 0, "/");
         unset($_SESSION["checkout_error"]);
         header("Location: " . HTML_ROOT_DIR . "/website/index.php");
         exit();
