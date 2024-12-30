@@ -49,7 +49,32 @@ if (empty($products)) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $body = '<html>
+    $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+    $first_name = trim($_POST["first_name"]);
+    $last_name = trim($_POST["last_name"]);
+    $country = $_POST["country"];
+    $city = $_POST["city"];
+    $address = trim($_POST["address"]);
+
+    if (empty($email) || empty($first_name) || empty($last_name) || empty($country) || empty($city) || empty($address)) {
+        $_SESSION["checkout_error"] = "All required fields must be filled.";
+    } else {
+        $sql = "INSERT INTO orders (user_id, order_email, order_first_name, order_last_name, order_country, order_city, order_address) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("issssss", $_SESSION["user"]["user_id"], $email, $first_name, $last_name, $country, $city, $address);
+        $stmt->execute();
+
+        $order_id = mysqli_insert_id($conn);
+
+        foreach ($products as $product) {
+            $sql = "INSERT INTO orderProducts (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("iiid", $order_id, $product["product_id"], $product["quantity"], $product["price"]);
+            $stmt->execute();
+        }
+
+        $body = '<html>
         <head>
             <style>
                 :root {
@@ -227,10 +252,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </style>
         </head>
         <body class="bg-white">
-            <h1 class="mb-4">Your Order</h1>';
+            <h1 class="mb-4">Order #' . $order_id . '</h1>';
 
-    foreach ($products as $product) {
-        $body .= '
+        foreach ($products as $product) {
+            $body .= '
         <div class="container p-3 my-5 row mx-auto border-bottom">
             <div class="col-2 mb-4">
                 <img class="rounded ratio ratio-1x1" src="website/img/products/' . $product["image_name"] . '" alt="image"/>
@@ -241,33 +266,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="col-3 mb-4">
                 <h4>'
-            . number_format($product["price"] * $product["quantity"] * (1 - $product["discount"]), 2, ".", "") . '&euro;
+                . number_format($product["price"] * $product["quantity"] * (1 - $product["discount"]), 2, ".", "") . '&euro;
                 </h4>
             </div>
         </div>';
-    }
-    $email = "koalaprecious@gmail.com";
+        }
 
-    $finalPrice = 0;
-    foreach ($products as $product) {
-        $finalPrice += $product["price"] * $product["quantity"] * (1 - $product["discount"]);
-    }
-    $body .= '
+        $finalPrice = 0;
+        foreach ($products as $product) {
+            $finalPrice += $product["price"] * $product["quantity"] * (1 - $product["discount"]);
+        }
+        $body .= '
             <div class="p-3 row mx-auto">
                 <div class="col-auto ms-auto">
                     <h1>Total: ' . number_format($finalPrice, 2, ".", "") . '&euro;</h1>
                 </div>
             </div>';
 
-    $subject = "Your order has been placed.";
+        $subject = "Your order has been placed.";
 
-    include ROOT_DIR . "/website/partials/mailer.php";
+        include ROOT_DIR . "/website/partials/mailer.php";
+
+        setcookie("cart", time() - 3600);
+        unset($_SESSION["checkout_error"]);
+        header("Location: " . HTML_ROOT_DIR . "/website/index.php");
+        exit();
+    }
 }
 
 
 ?>
 
 <main>
+    <?php
+    if (isset($_SESSION["checkout_error"])) {
+        echo '<div class="alert alert-danger rounded alert-dismissible fade show" role="alert">'
+            . $_SESSION["checkout_error"] .
+            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+    }
+    ?>
     <div id="checkoutShipping" class="container w-35-max p-5 my-5 rounded border border-1 border-secondary">
         <h1 class="text-center mb-4">Shipping Details</h1>
         <form id="shippingForm" action="" method="POST">

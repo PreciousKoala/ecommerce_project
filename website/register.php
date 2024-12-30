@@ -6,7 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
     $first_name = trim($_POST["first_name"]);
     $last_name = trim($_POST["last_name"]);
-    $country = ($_POST["country"]);
+    $country = $_POST["country"];
     $city = $_POST["city"];
     $address = trim($_POST["address"]);
 
