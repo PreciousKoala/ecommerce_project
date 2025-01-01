@@ -153,7 +153,7 @@ function updateCart(product_id, stock) {
 function removeFromCart(product_id) {
     var cart = JSON.parse(getCookie("cart"));
 
-    if (Object.keys(cart).length == 1){
+    if (Object.keys(cart).length == 1) {
         document.getElementById("cartMain").children[0].innerHTML = "Your Cart is Empty";
         document.getElementById("finalPrice").parentElement.parentElement.remove();
     }
@@ -185,11 +185,11 @@ function updateFinalPrice() {
     // ignore first and last child (title and final price)
     for (let i = 1; i < productRows.length - 1; i++) {
         const product_id = productRows[i].id.slice("productRow".length, productRows[i].id.length);
-        
+
         const quantity = Number(document.getElementById("quantity" + product_id).value);
         const price = Number(document.getElementById("cleanPrice" + product_id).innerHTML);
         const discount = Number(document.getElementById("cleanDiscount" + product_id).innerHTML);
-        
+
         finalPrice += quantity * price * (1 - discount);
     }
     document.getElementById("finalPrice").innerHTML = "Total: " + finalPrice.toFixed(2) + "€";

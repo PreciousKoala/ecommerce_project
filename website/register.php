@@ -79,7 +79,7 @@ include ROOT_DIR . "/website/partials/header.php";
         }
         ?>
 
-        <form action="" method="POST">
+        <form id="registerForm" action="" method="POST">
             <div class="form-floating mb-3">
                 <input type="email" class="form-control" id="email" name="email" required>
                 <label for="email" class="form-label">Email*</label>

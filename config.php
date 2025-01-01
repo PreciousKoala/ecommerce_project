@@ -35,3 +35,6 @@ foreach ($lines as $line) {
 
 define("MAIL_USER", getenv("MAIL_USER"));
 define("MAIL_PASS", getenv("MAIL_PASS"));
+
+// timezone set to GMT+2
+date_default_timezone_set("Europe/Athens");

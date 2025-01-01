@@ -116,8 +116,9 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
 </div>
 
 <main class="m-3">
+    <h1 class="text-center mb-3">Manage Users</h1>
     <div class="table-responsive table-scrollable">
-        <table class="table table-hover">
+        <table class="table table-hover table-fit">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -143,12 +144,12 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
                     echo '<tr>
                         <th scope="row">' . $user["user_id"] . '</th>
                         <td>' . $user["email"] . '</td>
-                        <td class="text-wrap text-break w-15-ch-min">' . $user["first_name"] . '</td>
-                        <td class="text-wrap text-break w-15-ch-min">' . $user["last_name"] . '</td>
-                        <td class="text-wrap text-break w-20-ch-min">' . $user["country"] . '</td>
-                        <td class="text-wrap text-break w-20-ch-min">' . $user["city"] . '</td>
-                        <td class="text-wrap text-break w-20-ch-min">' . $user["address"] . '</td>
-                        <td class="text-wrap text-break w-20-ch-min">' . $user["created_at"] . '</td>
+                        <td class="text-wrap text-break">' . $user["first_name"] . '</td>
+                        <td class="text-wrap text-break">' . $user["last_name"] . '</td>
+                        <td class="text-wrap text-break">' . $user["country"] . '</td>
+                        <td class="text-wrap text-break">' . $user["city"] . '</td>
+                        <td class="text-wrap text-break">' . $user["address"] . '</td>
+                        <td class="text-wrap text-break">' . $user["created_at"] . '</td>
                         <td>' . $user["role"] . '</td>
                         <td>
                             <button id="editButtonModal' . $user["user_id"] . '" class="btn btn-secondary" type="button"
