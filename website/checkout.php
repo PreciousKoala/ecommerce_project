@@ -248,8 +248,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
 
                 img {
-                    max-width: 100px;
-                    max-height: 100px;
+                    max-width: 100%;
+                    max-height: 100%;
                     aspect-ratio: 1 / 1;
                     object-fit: cover;
                 }
@@ -269,7 +269,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h3 class="text-wrap text-break">' . $product["quantity"] . ' &times; ' . $product["name"] . '</h3>
                 <div class="text-muted">' . number_format($product["price"] * (1 - $product["discount"]), 2, ".", "") . '&euro;</div>
             </div>
-            <div class="col-3 mb-4">
+            <div class="col-3 mb-4 p-3">
                 <h4>'
                 . number_format($product["price"] * $product["quantity"] * (1 - $product["discount"]), 2, ".", "") . '&euro;
                 </h4>

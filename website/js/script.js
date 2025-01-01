@@ -103,8 +103,6 @@ function showInfo(infoButton) {
     infoModalList.children[5].children[1].innerHTML = orderInfo.children[5].innerHTML;
 }
 
-function showProducts(productsButton) { }
-
 function showOrderId(cancelButton) {
     const parent = cancelButton.parentElement.parentElement;
     const children = parent.children;
