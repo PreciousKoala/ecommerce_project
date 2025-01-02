@@ -149,3 +149,17 @@ function validateForm(formId) {
 
     return true;
 }
+
+// for review creation
+
+function fillHeart(){
+    document.getElementById("filledHeart").classList.remove("d-none");
+    document.getElementById("unfilledHeart").classList.add("d-none");
+    document.getElementById("heart").value = 1;
+}
+
+function unfillHeart(){
+    document.getElementById("filledHeart").classList.add("d-none");
+    document.getElementById("unfilledHeart").classList.remove("d-none");
+    document.getElementById("heart").value = 0;
+}

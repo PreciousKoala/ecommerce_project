@@ -19,6 +19,16 @@ if ($result->num_rows == 0) {
     );
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    $rating = intval($_POST["heart"]);
+    $body = $_POST["reviewBody"];
+    $sql = "INSERT INTO reviews (product_id, user_id, rating, body) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("iiis", $_GET["product_id"], $_SESSION["user"]["user_id"], $rating, $body);
+    $stmt->execute();
+}
+
 if (isset($_GET["favorite"]) && isset($_SESSION["user"])) {
     $favOpt = $_GET["favorite"];
     if ($favOpt == "1") {
@@ -77,12 +87,35 @@ if (isset($_SESSION["user"])) {
     $stmt->execute();
     $result = $stmt->get_result();
     $favorite = $result->fetch_assoc();
+
+    $sql = "SELECT * FROM orderProducts AS op 
+            JOIN orders AS o ON op.order_id = o.order_id 
+            WHERE op.product_id = ? AND o.user_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $_GET["product_id"], $_SESSION["user"]["user_id"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $ordered = false;
+    if ($result->num_rows > 0) {
+        $ordered = true;
+    }
+
+    $sql = "SELECT * FROM reviews WHERE product_id = ? AND user_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $_GET["product_id"], $_SESSION["user"]["user_id"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $alreadyReviewed = false;
+    if ($result->num_rows >= 1) {
+        $alreadyReviewed = true;
+    }
 }
 
 ?>
 
 <main class="m-3">
-
 
     <div class="container my-5 row mx-auto">
         <div class="container-fluid col-md-6 col-sm-12 col-12 mb-4">
@@ -175,15 +208,16 @@ if (isset($_SESSION["user"])) {
             <div class="row mb-5 justify-content-between my-4">
                 <div class="w-35 input-group text-center">
                     <button class="btn border-1 border-end-0 border-secondary rounded-start" type="button"
-                        id="button-decrease" onclick="decreaseQuantity(<?php echo $product['stock']?>)">−</button>
+                        id="button-decrease" onclick="decreaseQuantity(<?php echo $product['stock'] ?>)">−</button>
                     <div class="form-floating">
                         <input type="text" inputmode="numeric"
                             class="form-control border-1 border-end-0 border-start-0 border-secondary text-center"
-                            id="product_quantity" name="product_quantity" required value="1" min="1" max="<?php echo $product["stock"]?>">
+                            id="product_quantity" name="product_quantity" required value="1" min="1"
+                            max="<?php echo $product["stock"] ?>">
                         <label for="product_quantity" class="form-label mx-auto">Quantity</label>
                     </div>
                     <button class="btn border-1 border-start-0 border-secondary rounded-end" type="button"
-                        id="button-increase" onclick="increaseQuantity(<?php echo $product['stock']?>)">+</button>
+                        id="button-increase" onclick="increaseQuantity(<?php echo $product['stock'] ?>)">+</button>
                 </div>
                 <button class="btn btn-primary w-35 text-center" type="button"
                     onclick="addToCart(<?php echo $product['product_id'] . ', ' . $product['stock'] ?>)" <?php echo $disabled ?>>
@@ -196,36 +230,60 @@ if (isset($_SESSION["user"])) {
         </div>
         <div class="mx-auto">
             <?php
+            if ($ordered && !$alreadyReviewed) {
+                echo '
+                <form id="reviewForm" class="border border-1 border-secondary rounded my-3 p-3" method="post">
+                    <h5>Write Review</h5>
+                    <div class="mb-3">
+                        <input type="hidden" value="0" id="heart" name="heart">
+                        <h5>
+                            <label for="heart" id="unfilledHeart" onclick="fillHeart()">
+                                <i class="fa-regular fa-heart"></i>
+                            </label>
+                            <label for="heart" id="filledHeart" class="d-none" onclick="unfillHeart()">
+                                <i class="fa-solid fa-heart text-danger"></i>
+                            </label>
+                        </h5>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea rows="7" class="form-control h-100" name="reviewBody" id="reviewBody" required></textarea>
+                        <label for="reviewBody" class="form-label">Body</label>
+                        <div class="text-muted">Required</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary p-2">Publish Review</button>
+                </form>';
+            }
+
             if (!isset($rating)) {
                 echo "<h5>No Rating</h5>";
             } else {
                 echo "<h5>" . $rating * 100 . "% of buyers liked this item</h5>";
             }
-            ?>
-            <div class="border border-1 border-secondary rounded my-3 p-3">
-                <h4 class="mb-4">Reviews(<?php echo $totalReviews; ?>)</h4>
-                <?php
-                if ($totalReviews == 0) {
-                    echo "<h5>This item has no reviews yet</h5>";
-                } else {
-                    foreach ($reviews as $review) {
-                        $like = "";
-                        if ($review["rating"] == 1) {
-                            $like = '<i class="fa-solid fa-heart text-danger"></i> ';
-                        }
-                        echo '<div class="mb-4">
+
+            echo '<div class="border border-1 border-secondary rounded my-3 p-3">
+                <h4 class="mb-4">Reviews(' . $totalReviews . ')</h4>';
+
+            if ($totalReviews == 0) {
+                echo "<h5>This item has no reviews yet</h5>";
+            } else {
+                foreach ($reviews as $review) {
+                    $like = "";
+                    if ($review["rating"] == 1) {
+                        $like = '<i class="fa-solid fa-heart text-danger"></i> ';
+                    }
+                    echo '<div class="mb-4">
                                 <h6 class="text-wrap text-break">' . $review["email"] . '</h6>
                                 <h6>' . $like . '
                                 <small class="text-muted">
                                     Posted at ' . date("F j Y, g:i A", strtotime($review["created_at"])) .
-                            '</small><h6>
+                        '</small><h6>
                                 <p class="text-wrap text-break">' . $review["body"] . '<p>
                             </div>';
-                    }
                 }
-                ?>
-            </div>
+            }
+            ?>
         </div>
+    </div>
     </div>
 
 </main>

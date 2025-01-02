@@ -36,26 +36,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $return_product_id = intval($_POST["return_product_id"]);
         $return_quantity = intval($_POST["product_quantity"]);
 
-        echo $return_order_id;
-        echo " ";
-        echo $return_product_id;
-        echo " ";
-        echo $return_quantity;
-
         $sql = "SELECT returned, quantity FROM orderProducts WHERE order_id = ? AND product_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ii", $return_order_id, $return_product_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $orderProduct = $result->fetch_assoc();
-        
+
         if ($orderProduct["returned"] + $return_quantity > $orderProduct["quantity"]) {
             $return_quantity = $orderProduct["quantity"];
         } else {
             $return_quantity += $orderProduct["returned"];
         }
-        echo " ";
-        echo $return_quantity;
 
         $sql = "UPDATE orderProducts SET returned = ? WHERE order_id = ? AND product_id = ?";
         $stmt = $conn->prepare($sql);
