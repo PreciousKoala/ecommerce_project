@@ -12,6 +12,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $cancel_id);
         $stmt->execute();
+
+        $subject = "Your order has been cancelled.";
+        $body = "
+        <html>
+            <body>
+                <p>Order #" . $cancel_id . " has been cancelled, but we're still taking your money :).</p>
+            </body>
+        </html>";
+
+        $sql = "SELECT order_email FROM orders WHERE order_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $cancel_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $email = $result->fetch_assoc()["order_email"];
+
+        include ROOT_DIR . "/website/partials/mailer.php";
+    }
+
+    if (isset($_POST["returnButton"])) {
+        $return_order_id = intval($_POST["return_order_id"]);
+        $return_product_id = intval($_POST["return_product_id"]);
+        $return_quantity = intval($_POST["product_quantity"]);
+
+        echo $return_order_id;
+        echo " ";
+        echo $return_product_id;
+        echo " ";
+        echo $return_quantity;
+
+        $sql = "SELECT returned, quantity FROM orderProducts WHERE order_id = ? AND product_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $return_order_id, $return_product_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $orderProduct = $result->fetch_assoc();
+        
+        if ($orderProduct["returned"] + $return_quantity > $orderProduct["quantity"]) {
+            $return_quantity = $orderProduct["quantity"];
+        } else {
+            $return_quantity += $orderProduct["returned"];
+        }
+        echo " ";
+        echo $return_quantity;
+
+        $sql = "UPDATE orderProducts SET returned = ? WHERE order_id = ? AND product_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iii", $return_quantity, $return_order_id, $return_product_id);
+        $stmt->execute();
     }
 }
 
@@ -65,17 +114,33 @@ $orders = $result->fetch_all(MYSQLI_ASSOC);
     </div>
 </div>
 
-<div class="modal fade" id="productsModal" tabindex="-1" aria-labelledby="productsModalLabel" aria-hidden="true">
+<div class="modal fade" id="returnModal" tabindex="-1" aria-labelledby="returnModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="productsModalLabel">Order Items</h5>
+                <h5 class="modal-title" id="returnModalLabel">Confirm</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                Enter the number of items you want to return.
+                <form id="returnForm" method="post" class="w-35 my-2 mx-auto input-group text-center">
+                    <input id="returnOrderId" type="hidden" name="return_order_id">
+                    <input id="returnProductId" type="hidden" name="return_product_id">
+                    <button class="btn border-1 border-end-0 border-secondary rounded-start" type="button"
+                        id="button-decrease" onclick="decreaseQuantity(10000000)">−</button>
+                    <div class="form-floating">
+                        <input type="text" inputmode="numeric"
+                            class="form-control border-1 border-end-0 border-start-0 border-secondary text-center"
+                            id="product_quantity" name="product_quantity" required value="1" min="1">
+                        <label for="product_quantity" class="form-label mx-auto">Quantity</label>
+                    </div>
+                    <button class="btn border-1 border-start-0 border-secondary rounded-end" type="button"
+                        id="button-increase" onclick="increaseQuantity(10000000)">+</button>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button name="returnButton" form="returnForm" type="submit" class="btn btn-danger">Return Items</button>
             </div>
         </div>
     </div>
@@ -102,10 +167,13 @@ $orders = $result->fetch_all(MYSQLI_ASSOC);
 
 <main class="m-3">
     <h1 class="text-center mb-3">Order History</h1>
+    <div class="text-center mb-3 text-muted">You can cancel an order within 24 hours.</div>
+
     <div class="container table-responsive table-scrollable mx-auto">
         <table class="table table-hover mx-auto table-fit">
             <thead>
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col">Order ID</th>
                     <th scope="col">User ID</th>
                     <th scope="col">Total Price</th>
@@ -136,12 +204,18 @@ $orders = $result->fetch_all(MYSQLI_ASSOC);
                     $result = $stmt->get_result();
                     $products = $result->fetch_all(MYSQLI_ASSOC);
 
-                    $disabled = "";
+                    $disabledCancel = "";
                     if (time() - strtotime($order["created_at"]) > 24 * 60 * 60 || $order["cancelled_at"] != NULL) {
-                        $disabled = "disabled";
+                        $disabledCancel = "disabled";
+                    }
+
+                    $cancelled = "";
+                    if ($order["cancelled_at"] != NULL) {
+                        $cancelled = '<i class="fa-solid fa-circle-exclamation text-danger"></i>';
                     }
 
                     echo '<tr>
+                        <td>' . $cancelled . '</td>
                         <th scope="row">' . $order["order_id"] . '</th>
                         <td>' . $order["user_id"] . '</td>
                         <td>' . $totalPrice . '&euro;</td>
@@ -160,7 +234,7 @@ $orders = $result->fetch_all(MYSQLI_ASSOC);
                             </button>
                         </td>
                         <td>
-                            <button id="cancelButtonModal' . $order["order_id"] . '" class="btn btn-danger ' . $disabled . '" type="button"
+                            <button id="cancelButtonModal' . $order["order_id"] . '" class="btn btn-danger ' . $disabledCancel . '" type="button"
                              data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="showOrderId(this)">
                                 <i class="fa-solid fa-ban"></i>
                             </button>
@@ -205,8 +279,20 @@ $orders = $result->fetch_all(MYSQLI_ASSOC);
 
                         $product["image_name"] = $image;
 
+                        $disabledReturn = "";
+                        if ($product["returned"] >= $product["quantity"] || !empty($cancelled)) {
+                            $disabledReturn = "disabled";
+                        }
+
+                        $returned = "";
+                        if ($product["returned"] > 0) {
+                            $returned = '<div class="text-muted">Returned &times; ' . $product["returned"] . '</div>';
+                        }
+
                         echo '
                                 <div class="container p-3 m-0 row border-bottom">
+                                    <div class="d-none">' . $order["order_id"] . '</div>
+                                    <div class="d-none">' . $product["product_id"] . '</div>
                                     <div class="col-2 mb-4">
                                         <img class="rounded ratio ratio-1x1" 
                                         style="max-height: 5em; max-width: 5em" 
@@ -221,6 +307,11 @@ $orders = $result->fetch_all(MYSQLI_ASSOC);
                                         <h5>'
                             . number_format($product["price"] * $product["quantity"], 2, ".", "") . '&euro;
                                         </h5>
+                                        <button id="returnButtonModal' . $order["order_id"] . '" class="btn btn-danger ' . $disabledReturn . '" 
+                                        type="button" data-bs-toggle="modal" data-bs-target="#returnModal" onclick="showOrderProductId(this)">
+                                            Return <i class="fa-solid fa-arrow-rotate-left"></i>
+                                        </button>
+                                        ' . $returned . '
                                     </div>
                                 </div>';
                     }

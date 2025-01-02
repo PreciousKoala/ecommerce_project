@@ -69,7 +69,6 @@ include ROOT_DIR . "/website/partials/header.php";
 <main>
     <div class="container w-35-max p-5 my-5 rounded border border-1 border-secondary" id="registerForm">
         <h1 class="text-center mb-4">Register Account</h1>
-
         <?php
         if (isset($_SESSION["register_error"])) {
             echo '<div class="alert alert-danger rounded alert-dismissible fade show" role="alert">'

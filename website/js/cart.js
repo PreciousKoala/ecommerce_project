@@ -33,8 +33,10 @@ function increaseQuantity(stock) {
 
 function decreaseQuantity(stock) {
     var quantity = document.getElementById("product_quantity");
-    if (Number(quantity.value) <= stock) {
+    if (Number(quantity.value) <= stock && Number(quantity.value) >= 2) {
         quantity.value = Number(quantity.value) - 1;
+    } else if (Number(quantity.value < 2)) {
+        quantity.value = 1;
     } else {
         quantity.value = stock - 1;
     }

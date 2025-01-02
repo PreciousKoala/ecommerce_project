@@ -91,7 +91,7 @@ function showUserId(deleteButton) {
 
 function showInfo(infoButton) {
     const parent = infoButton.parentElement.parentElement;
-    const orderInfo = parent.children[8];
+    const orderInfo = parent.children[9];
 
     var infoModalList = document.getElementById("orderInfoList");
 
@@ -101,6 +101,16 @@ function showInfo(infoButton) {
     infoModalList.children[3].children[1].innerHTML = orderInfo.children[3].innerHTML;
     infoModalList.children[4].children[1].innerHTML = orderInfo.children[4].innerHTML;
     infoModalList.children[5].children[1].innerHTML = orderInfo.children[5].innerHTML;
+}
+
+function showOrderProductId(returnButton) {
+    const parent = returnButton.parentElement.parentElement;
+    const children = parent.children;
+    const order_id = children[0].innerHTML;
+    const product_id = children[1].innerHTML;
+    document.getElementById("returnOrderId").value = order_id;
+    document.getElementById("returnProductId").value = product_id;
+    console.log(order_id + " " + product_id);
 }
 
 function showOrderId(cancelButton) {
