@@ -21,13 +21,13 @@ body {
     margin: 0 auto;
 }
 
+.w-35 {
+    width: 35%;
+}
+
 .w-25-max {
     width: 35%;
     min-width: 350px;
-}
-
-.w-35 {
-    width: 35%;
 }
 
 img {

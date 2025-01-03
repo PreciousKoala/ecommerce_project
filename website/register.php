@@ -124,7 +124,7 @@ include ROOT_DIR . "/website/partials/header.php";
                 <input type="text" class="form-control" id="address" name="address">
                 <label for="address" class="form-label">Address</label>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Register</button>
+            <button type="submit" class="btn btn-primary p-3 px-4">Register</button>
             <div class="form-text">*Required fields</div>
         </form>
     </div>

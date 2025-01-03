@@ -216,7 +216,7 @@ $orders = $result->fetch_all(MYSQLI_ASSOC);
                         <td>
                             <button id="infoButtonModal' . $order["order_id"] . '" class="btn btn-secondary" type="button"
                              data-bs-toggle="modal" data-bs-target="#infoModal" onclick="showInfo(this)">
-                                <i class="fa-solid fa-truck"></i>
+                                <i class="fa-solid fa-eye"></i>
                             </button>
                         </td>
                         <td>

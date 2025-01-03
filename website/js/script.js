@@ -87,6 +87,23 @@ function showUserId(deleteButton) {
     console.log(user_id);
 }
 
+// for admin product management
+
+function showProductInfo(infoButton) {
+    const parent = infoButton.parentElement.parentElement;
+    const productInfo = parent.children[8];
+
+    var infoModalList = document.getElementById("productInfoList");
+
+    infoModalList.children[0].children[1].innerHTML = parent.children[1].innerHTML;
+    infoModalList.children[1].children[1].innerHTML = productInfo.children[0].innerHTML;
+    infoModalList.children[2].children[1].innerHTML = Number(productInfo.children[1].innerHTML).toFixed(2) + "€";
+    infoModalList.children[3].children[1].innerHTML = (Number(productInfo.children[2].innerHTML)) * 100 + "%";
+    infoModalList.children[4].children[1].innerHTML = productInfo.children[3].innerHTML;
+    infoModalList.children[5].children[1].innerHTML = productInfo.children[4].innerHTML;
+    infoModalList.children[6].children[1].innerHTML = productInfo.children[5].innerHTML;
+}
+
 // for user order history
 
 function showInfo(infoButton) {
@@ -152,13 +169,13 @@ function validateForm(formId) {
 
 // for review creation
 
-function fillHeart(){
+function fillHeart() {
     document.getElementById("filledHeart").classList.remove("d-none");
     document.getElementById("unfilledHeart").classList.add("d-none");
     document.getElementById("heart").value = 1;
 }
 
-function unfillHeart(){
+function unfillHeart() {
     document.getElementById("filledHeart").classList.add("d-none");
     document.getElementById("unfilledHeart").classList.remove("d-none");
     document.getElementById("heart").value = 0;
