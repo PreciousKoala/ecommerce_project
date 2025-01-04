@@ -83,8 +83,6 @@ function showUserId(deleteButton) {
     var user_id = children[0].innerHTML;
     document.getElementById("deleteModalUserId").innerHTML = user_id;
     document.getElementById("deleteUserId").value = user_id;
-
-    console.log(user_id);
 }
 
 // for admin product management
@@ -98,10 +96,52 @@ function showProductInfo(infoButton) {
     infoModalList.children[0].children[1].innerHTML = parent.children[1].innerHTML;
     infoModalList.children[1].children[1].innerHTML = productInfo.children[0].innerHTML;
     infoModalList.children[2].children[1].innerHTML = Number(productInfo.children[1].innerHTML).toFixed(2) + "€";
-    infoModalList.children[3].children[1].innerHTML = (Number(productInfo.children[2].innerHTML)) * 100 + "%";
+    infoModalList.children[3].children[1].innerHTML = (Number(productInfo.children[2].innerHTML)) * 100 + "% OFF";
     infoModalList.children[4].children[1].innerHTML = productInfo.children[3].innerHTML;
     infoModalList.children[5].children[1].innerHTML = productInfo.children[4].innerHTML;
     infoModalList.children[6].children[1].innerHTML = productInfo.children[5].innerHTML;
+}
+
+function showProductId(deleteButton) {
+    var parent = deleteButton.parentElement.parentElement;
+    var children = parent.children;
+    var product_id = children[0].innerHTML;
+    document.getElementById("deleteModalProductId").innerHTML = product_id;
+    document.getElementById("deleteProductId").value = product_id;
+}
+
+function showProductDetails(editButton) {
+    var parent = editButton.parentElement.parentElement;
+    var productInfo = parent.children[8];
+
+    const name = parent.children[1].innerHTML
+    const price = Number(productInfo.children[1].innerHTML);
+    const stock = Number(productInfo.children[3].innerHTML);
+    const description = productInfo.children[0].innerHTML.trim();
+    console.log(description);
+    const discount = Number(productInfo.children[2].innerHTML) * 100;
+    const category = productInfo.children[5].innerHTML.trim();
+
+    document.getElementById("editProductId").value = parent.children[0].innerHTML;
+    document.getElementById("editModalProductId").innerHTML = parent.children[0].innerHTML;
+    document.getElementById("editName").value = name;
+    document.getElementById("editPrice").value = price;
+    document.getElementById("editStock").value = stock;
+    document.getElementById("editDescription").value = description;
+    document.getElementById("editDiscount").value = discount;
+
+    var categoryOptions = document.getElementById("editCategory").children;
+    categoryOptions[0].removeAttribute("selected");
+    categoryOptions[1].removeAttribute("selected");
+    categoryOptions[2].removeAttribute("selected");
+
+    if (category === "Paper") {
+        categoryOptions[0].setAttribute("selected", true);
+    } else if (category === "Book") {
+        categoryOptions[1].setAttribute("selected", true);
+    } else if (category === "Other") {
+        categoryOptions[2].setAttribute("selected", true);
+    }
 }
 
 // for user order history
@@ -127,13 +167,12 @@ function showOrderProductId(returnButton) {
     const product_id = children[1].innerHTML;
     document.getElementById("returnOrderId").value = order_id;
     document.getElementById("returnProductId").value = product_id;
-    console.log(order_id + " " + product_id);
 }
 
 function showOrderId(cancelButton) {
     const parent = cancelButton.parentElement.parentElement;
     const children = parent.children;
-    const order_id = children[0].innerHTML;
+    const order_id = children[1].innerHTML;
     document.getElementById("cancelModalOrderId").innerHTML = order_id;
     document.getElementById("cancelOrderId").value = order_id;
 }

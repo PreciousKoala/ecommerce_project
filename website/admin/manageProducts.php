@@ -4,8 +4,6 @@ include ROOT_DIR . "/website/partials/kickNonAdmins.php";
 $title = "Manage Products";
 include ROOT_DIR . "/website/partials/header.php";
 
-var_dump($_POST);
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["deleteImage"])) {
         $image_id = intval($_POST["deleteImage"]);
@@ -88,6 +86,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
     }
+
+    if (isset($_POST["deleteButton"])) {
+        $delete_id = intval($_POST["delete_product_id"]);
+
+        $sql = "DELETE FROM products WHERE product_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $delete_id);
+        $stmt->execute();
+    }
+
+    if (isset($_POST["editButton"])) {
+        $edit_id = intval($_POST["edit_product_id"]);
+
+        $name = htmlspecialchars(trim($_POST["editName"]));
+        $description = nl2br(htmlspecialchars(trim($_POST["editDescription"])));
+        $price = floatval($_POST["editPrice"]);
+        $stock = intval($_POST["editStock"]);
+        $discount = floatval($_POST["editDiscount"])/100;
+        $category = $_POST["editCategory"];
+
+        $sql = "UPDATE products 
+                SET name = ?, description = ?, price = ?, stock = ?, discount = ?, category = ?
+                WHERE product_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssdidsi", $name, $description, $price, $stock, $discount, $category, $edit_id);
+        $stmt->execute();
+    }
+
+    if (isset($_POST["createButton"])) {
+        $edit_id = intval($_POST["edit_product_id"]);
+
+        $name = htmlspecialchars(trim($_POST["name"]));
+        $description = nl2br(htmlspecialchars(trim($_POST["description"])));
+        $price = floatval($_POST["price"]);
+        $stock = intval($_POST["stock"]);
+        $discount = floatval($_POST["discount"])/100;
+        $category = $_POST["category"];
+
+        $sql = "UPDATE products 
+                SET name = ?, description = ?, price = ?, stock = ?, discount = ?, category = ?
+                WHERE product_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssdidsi", $name, $description, $price, $stock, $discount, $category, $edit_id);
+        $stmt->execute();
+    }
 }
 
 $sql = "SELECT * FROM products";
@@ -137,6 +180,80 @@ $products = $result->fetch_all(MYSQLI_ASSOC);
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Product #<span id="editModalProductId"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProductForm" action="" method="POST">
+                    <input name="edit_product_id" id="editProductId" type="hidden" value="">
+                    <div class="form-floating mb-3">
+                        <input type="text" value="" class="form-control" id="editName" name="editName" required>
+                        <label for="editName" class="form-label">Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" value="" class="form-control" id="editPrice" name="editPrice" required min="0"
+                            pattern="[0-9]*[.,]?[0-9]*" inputmode="decimal">
+                        <label for="editPrice" class="form-label">Price</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" value="" class="form-control" id="editStock" name="editStock" required min="0"
+                            pattern="[0-9]*" inputmode="numeric">
+                        <label for="editStock" class="form-label">Stock</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea rows="7" value="" class="form-control h-100" id="editDescription"
+                            name="editDescription"></textarea>
+                        <label for="editDescription" class="form-label">Description*</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select name="editCategory" id="editCategory" class="form-select">
+                            <option value="paper">Paper</option>
+                            <option value="book">Book</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <label for="editCategory">Category</label>
+                    </div>
+                    <div class="input-group form-floating mb-3">
+                        <input type="text" value="" class="form-control" id="editDiscount" name="editDiscount" required min="0"
+                            max="100" pattern="[0-9]{1,2}" inputmode="numeric" aria-describedby="percentOff">
+                        <span class="input-group-text" id="percentOff">% OFF</span>
+                        <label for="editDiscount">Discount</label>
+                    </div>
+                    <div class="form-text">*Can be empty</div>
+                </form>
+            </div>
+            <form method="POST" class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button name="editButton" type="submit" class="btn btn-primary" form="editProductForm">Save
+                    Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete product #<span id="deleteModalProductId"></span>?
+            </div>
+            <form method="post" class="modal-footer">
+                <input id="deleteProductId" type="hidden" name="delete_product_id">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button name="deleteButton" type="submit" class="btn btn-danger">Delete</button>
+            </form>
         </div>
     </div>
 </div>
@@ -211,13 +328,13 @@ $products = $result->fetch_all(MYSQLI_ASSOC);
                         </td>
                         <td>
                             <button id="editButtonModal' . $product["product_id"] . '" class="btn btn-secondary" type="button"
-                             data-bs-toggle="modal" data-bs-target="#editModal" onclick="showproductId(this)">
+                             data-bs-toggle="modal" data-bs-target="#editModal" onclick="showProductDetails(this)">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </button>
                         </td>
                         <td>
                             <button id="deleteButtonModal' . $product["product_id"] . '" class="btn btn-danger" type="button"
-                             data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="showproductId(this)">
+                             data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="showProductId(this)">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </td>

@@ -196,6 +196,19 @@ $orders = $result->fetch_all(MYSQLI_ASSOC);
                     $result = $stmt->get_result();
                     $products = $result->fetch_all(MYSQLI_ASSOC);
 
+                    $sql = "SELECT price, quantity, returned FROM orderProducts WHERE order_id = ? AND product_id IS NULL";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $order["order_id"]);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $deletedProducts = $result->fetch_all(MYSQLI_ASSOC);
+
+                    foreach ($deletedProducts as $deleted) {
+                        $deleted["product_id"] = 0;
+                        $deleted["name"] = "ITEM DELETED";
+                        $products[] = $deleted;
+                    }
+
                     $disabledCancel = "";
                     if (time() - strtotime($order["created_at"]) > 24 * 60 * 60 || $order["cancelled_at"] != NULL) {
                         $disabledCancel = "disabled";
@@ -272,7 +285,7 @@ $orders = $result->fetch_all(MYSQLI_ASSOC);
                         $product["image_name"] = $image;
 
                         $disabledReturn = "";
-                        if ($product["returned"] >= $product["quantity"] || !empty($cancelled)) {
+                        if ($product["returned"] >= $product["quantity"] || !empty($cancelled) || $product["product_id"] == 0) {
                             $disabledReturn = "disabled";
                         }
 
