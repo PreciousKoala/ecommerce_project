@@ -94,7 +94,7 @@ function showProductInfo(infoButton) {
     var infoModalList = document.getElementById("productInfoList");
 
     infoModalList.children[0].children[1].innerHTML = parent.children[1].innerHTML;
-    infoModalList.children[1].children[1].innerHTML = productInfo.children[0].innerHTML;
+    infoModalList.children[1].children[1].innerHTML = productInfo.children[0].innerHTML.trim().replace(/(?:\r\n|\r|\n)/g, "<br>");
     infoModalList.children[2].children[1].innerHTML = Number(productInfo.children[1].innerHTML).toFixed(2) + "€";
     infoModalList.children[3].children[1].innerHTML = (Number(productInfo.children[2].innerHTML)) * 100 + "% OFF";
     infoModalList.children[4].children[1].innerHTML = productInfo.children[3].innerHTML;
@@ -118,7 +118,6 @@ function showProductDetails(editButton) {
     const price = Number(productInfo.children[1].innerHTML);
     const stock = Number(productInfo.children[3].innerHTML);
     const description = productInfo.children[0].innerHTML.trim();
-    console.log(description);
     const discount = Number(productInfo.children[2].innerHTML) * 100;
     const category = productInfo.children[5].innerHTML.trim();
 

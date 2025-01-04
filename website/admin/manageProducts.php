@@ -100,10 +100,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $edit_id = intval($_POST["edit_product_id"]);
 
         $name = htmlspecialchars(trim($_POST["editName"]));
-        $description = nl2br(htmlspecialchars(trim($_POST["editDescription"])));
+        $description = htmlspecialchars(trim($_POST["editDescription"]));
         $price = floatval($_POST["editPrice"]);
         $stock = intval($_POST["editStock"]);
-        $discount = floatval($_POST["editDiscount"])/100;
+        $discount = floatval($_POST["editDiscount"]) / 100;
         $category = $_POST["editCategory"];
 
         $sql = "UPDATE products 
@@ -115,20 +115,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (isset($_POST["createButton"])) {
-        $edit_id = intval($_POST["edit_product_id"]);
+        $name = htmlspecialchars(trim($_POST["createName"]));
+        $description = htmlspecialchars(trim($_POST["createDescription"]));
+        $price = floatval($_POST["createPrice"]);
+        $stock = intval($_POST["createStock"]);
+        $discount = floatval($_POST["createDiscount"]) / 100;
+        $category = $_POST["createCategory"];
 
-        $name = htmlspecialchars(trim($_POST["name"]));
-        $description = nl2br(htmlspecialchars(trim($_POST["description"])));
-        $price = floatval($_POST["price"]);
-        $stock = intval($_POST["stock"]);
-        $discount = floatval($_POST["discount"])/100;
-        $category = $_POST["category"];
-
-        $sql = "UPDATE products 
-                SET name = ?, description = ?, price = ?, stock = ?, discount = ?, category = ?
-                WHERE product_id = ?";
+        $sql = "INSERT INTO products (name, description, price, stock, discount, category) VALUES (?, ?, ?, ?, ?, ?) ";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssdidsi", $name, $description, $price, $stock, $discount, $category, $edit_id);
+        $stmt->bind_param("ssdids", $name, $description, $price, $stock, $discount, $category);
         $stmt->execute();
     }
 }
@@ -137,6 +133,63 @@ $sql = "SELECT * FROM products";
 $result = $conn->query($sql);
 $products = $result->fetch_all(MYSQLI_ASSOC);
 ?>
+
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createProductForm" action="" method="POST">
+                    <div class="form-floating mb-3">
+                        <input type="text" value="" class="form-control" id="createName" name="createName" required>
+                        <label for="createName" class="form-label">Name</label>
+                    </div>
+                    <div class="input-group form-floating mb-3">
+                        <input type="text" value="" class="form-control" id="createPrice" name="createPrice" required
+                            min="0" pattern="[0-9]*[.,]?[0-9]*" inputmode="decimal"
+                            aria-describedby="createPriceSymbol">
+                        <span class="input-group-text" id="createPriceSymbol">&euro;</span>
+                        <label for="createPrice" class="form-label">Price</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" value="" class="form-control" id="createStock" name="createStock" required
+                            min="0" pattern="[0-9]*" inputmode="numeric">
+                        <label for="createStock" class="form-label">Stock</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea rows="7" value="" class="form-control h-100" id="createDescription"
+                            name="createDescription"></textarea>
+                        <label for="createDescription" class="form-label">Description*</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select name="createCategory" id="createCategory" class="form-select">
+                            <option value="paper">Paper</option>
+                            <option value="book">Book</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <label for="createCategory">Category</label>
+                    </div>
+                    <div class="input-group form-floating mb-3">
+                        <input type="text" value="" class="form-control" id="createDiscount" name="createDiscount"
+                            required min="0" max="100" pattern="[0-9]{1,2}" inputmode="numeric"
+                            aria-describedby="createPercentOff">
+                        <span class="input-group-text" id="createPercentOff">% OFF</span>
+                        <label for="createDiscount">Discount</label>
+                    </div>
+                    <div class="form-text">*Can be empty</div>
+                </form>
+            </div>
+            <form method="POST" class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button name="createButton" type="submit" class="btn btn-primary" form="createProductForm">Create
+                    Product</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -198,14 +251,15 @@ $products = $result->fetch_all(MYSQLI_ASSOC);
                         <input type="text" value="" class="form-control" id="editName" name="editName" required>
                         <label for="editName" class="form-label">Name</label>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" value="" class="form-control" id="editPrice" name="editPrice" required min="0"
-                            pattern="[0-9]*[.,]?[0-9]*" inputmode="decimal">
+                    <div class="input-group form-floating mb-3">
+                        <input type="text" value="" class="form-control" id="editPrice" name="editPrice" required
+                            min="0" pattern="[0-9]*[.,]?[0-9]*" inputmode="decimal" aria-describedby="editPriceSymbol">
+                        <span class="input-group-text" id="editPriceSymbol">&euro;</span>
                         <label for="editPrice" class="form-label">Price</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" value="" class="form-control" id="editStock" name="editStock" required min="0"
-                            pattern="[0-9]*" inputmode="numeric">
+                        <input type="text" value="" class="form-control" id="editStock" name="editStock" required
+                            min="0" pattern="[0-9]*" inputmode="numeric">
                         <label for="editStock" class="form-label">Stock</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -222,9 +276,9 @@ $products = $result->fetch_all(MYSQLI_ASSOC);
                         <label for="editCategory">Category</label>
                     </div>
                     <div class="input-group form-floating mb-3">
-                        <input type="text" value="" class="form-control" id="editDiscount" name="editDiscount" required min="0"
-                            max="100" pattern="[0-9]{1,2}" inputmode="numeric" aria-describedby="percentOff">
-                        <span class="input-group-text" id="percentOff">% OFF</span>
+                        <input type="text" value="" class="form-control" id="editDiscount" name="editDiscount" required
+                            min="0" max="100" pattern="[0-9]{1,2}" inputmode="numeric" aria-describedby="editPercentOff">
+                        <span class="input-group-text" id="editPercentOff">% OFF</span>
                         <label for="editDiscount">Discount</label>
                     </div>
                     <div class="form-text">*Can be empty</div>
@@ -261,7 +315,8 @@ $products = $result->fetch_all(MYSQLI_ASSOC);
 <main class="m-3">
     <h1 class="text-center mb-3">Manage products</h1>
     <div class="mx-auto d-flex justify-content-center align-items-center mb-3">
-        <button id="createButton" class="btn btn-primary p-2" type="button">
+        <button id="createButton" class="btn btn-primary p-2" type="button" data-bs-toggle="modal"
+            data-bs-target="#createModal">
             <i class="fa-solid fa-plus"></i><span class="ms-2">Create New Product</span>
         </button>
     </div>

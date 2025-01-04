@@ -225,7 +225,7 @@ if (isset($_SESSION["user"])) {
                 </button>
             </div>
 
-            <p class="text-wrap text-break"><?php echo $product["description"] ?></p>
+            <p class="text-wrap text-break"><?php echo nl2br($product["description"]) ?></p>
 
         </div>
         <div class="mx-auto">
