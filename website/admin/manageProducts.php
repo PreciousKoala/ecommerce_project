@@ -132,6 +132,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $sql = "SELECT * FROM products";
 $result = $conn->query($sql);
 $products = $result->fetch_all(MYSQLI_ASSOC);
+
+$sql = "SELECT COUNT(*) AS totalProducts FROM products";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$result = $stmt->get_result();
+$totalProducts = $result->fetch_assoc()["totalProducts"];
 ?>
 
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
@@ -314,12 +320,16 @@ $products = $result->fetch_all(MYSQLI_ASSOC);
 
 <main class="m-3">
     <h1 class="text-center mb-3">Manage products</h1>
+
+    <div class="text-center my-2">Total Products: <?php echo $totalProducts; ?></div>
+
     <div class="mx-auto d-flex justify-content-center align-items-center mb-3">
         <button id="createButton" class="btn btn-primary p-2" type="button" data-bs-toggle="modal"
             data-bs-target="#createModal">
             <i class="fa-solid fa-plus"></i><span class="ms-2">Create New Product</span>
         </button>
     </div>
+    
     <div class="table-responsive table-scrollable mx-auto">
         <table class="table table-hover table-fit mx-auto">
             <thead>

@@ -36,6 +36,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $sql = "SELECT * FROM users ORDER BY user_id ASC";
 $result = $conn->query($sql);
 $users = $result->fetch_all(MYSQLI_ASSOC);
+
+$sql = "SELECT COUNT(*) AS totalUsers FROM users";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$result = $stmt->get_result();
+$totalUsers = $result->fetch_assoc()["totalUsers"];
 ?>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -116,7 +122,10 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
 </div>
 
 <main class="m-3">
-    <h1 class="text-center mb-3">Manage Users</h1>
+    <h1 class="text-center mb-2">Manage Users</h1>
+    
+    <div class="text-center my-2">Total Users: <?php echo $totalUsers; ?></div>
+
     <div class="table-responsive table-scrollable">
         <table class="table table-hover table-fit">
             <thead>

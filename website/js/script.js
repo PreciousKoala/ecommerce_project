@@ -143,7 +143,7 @@ function showProductDetails(editButton) {
     }
 }
 
-// for user order history
+// for user order history and admin user management
 
 function showInfo(infoButton) {
     const parent = infoButton.parentElement.parentElement;
