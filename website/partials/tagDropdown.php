@@ -7,7 +7,7 @@
         </div>
     </a>
     <form method="get" action="">
-        <ul class="dropdown-menu rounded border-1 border-secondary p-3" aria-labelledby="tagDropdown">
+        <ul class="dropdown-menu rounded border-1 border-secondary py-2" aria-labelledby="tagDropdown">
             <?php
             // tag selection is a form, so we put hidden inputs to keep the selected category and sort method 
             if (isset($_GET["category"])) {
@@ -36,7 +36,7 @@
                         }
                     }
 
-                    echo '<li class="form-check dropdown-item">
+                    echo '<li class="form-check dropdown-item px-5">
                     <input name="tag[' . $tag_id . ']" class="form-check-input" type="checkbox" value="' . $tag_id . '" 
                     id="tag' . $tag_id . '" ' . $tagChecked . '>
                     <label class="form-check-label" for="tag' . $tag_id . '">' . $tag_name . '</label>
@@ -45,7 +45,7 @@
             }
             ?>
             <div class="dropdown-divider"></div>
-            <button type="submit" class="btn btn-primary w-100">Apply Tags</button>
+            <button type="submit" class="btn btn-primary mx-4">Apply Tags</button>
         </ul>
     </form>
 </nav>

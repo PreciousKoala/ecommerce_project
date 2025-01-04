@@ -4,6 +4,8 @@ include ROOT_DIR . "/website/partials/kickNonAdmins.php";
 $title = "Manage Products";
 include ROOT_DIR . "/website/partials/header.php";
 
+var_dump($_POST);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["deleteImage"])) {
         $image_id = intval($_POST["deleteImage"]);
@@ -58,6 +60,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $maxPlacement++;
             $maxImageId++;
+        }
+
+    }
+
+    if (isset($_POST["deleteTag"])) {
+        $tag_id = intval($_POST["deleteTag"]);
+        $product_id = intval($_POST["deleteTagProductId"]);
+
+        $sql = "DELETE FROM productTags WHERE product_id = ? AND tag_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $product_id, $tag_id);
+        $stmt->execute();
+    }
+
+    if (isset($_POST["addTag"])) {
+        $product_id = intval($_POST["addTag"]);
+        $tags = $_POST["tags"];
+
+        foreach ($tags as $tag) {
+            $tag_id = intval($tag);
+
+            $sql = "INSERT INTO productTags (tag_id, product_id) VALUES (?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ii", $tag_id, $product_id);
+            $stmt->execute();
         }
 
     }
@@ -154,6 +181,12 @@ $products = $result->fetch_all(MYSQLI_ASSOC);
                     $result = $stmt->get_result();
                     $tags = $result->fetch_all(MYSQLI_ASSOC);
 
+                    $sql = "SELECT * FROM tags";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $allTags = $result->fetch_all(MYSQLI_ASSOC);
+
                     echo '<tr>
                         <th scope="row">' . $product["product_id"] . '</th>
                         <td>' . $product["name"] . '</td>
@@ -243,9 +276,60 @@ $products = $result->fetch_all(MYSQLI_ASSOC);
                     </tr>
                     <tr>
                         <td colspan="8" class="p-0">
-                            <div id="tagDropdown' . $product["product_id"] . '" class="accordion-body collapse">';
+                            <div id="tagDropdown' . $product["product_id"] . '" class="accordion-body collapse">
+                                <nav class="col-auto dropdown text-center m-2 rounded d-flex">
+                                    <a class="nav-link dropdown-toggle" href="#" id="tagDropdown" role="button" data-bs-toggle="dropdown" data-bs-display="static"
+                                        data-bs-auto-close="outside" aria-expanded="false">
+                                        <div>
+                                            <i class="fa-solid fa-tags"></i>
+                                            Select Tags
+                                        </div>
+                                    </a>
+                                    <form method="post">
+                                        <ul class="dropdown-menu rounded border-1 border-secondary py-2" aria-labelledby="tagDropdown">';
+
+                    $tag_ids = array();
+                    foreach ($tags as $tag) {
+                        $tag_ids[] = $tag["tag_id"];
+                    }
+
+                    foreach ($allTags as $tag) {
+                        if (!in_array($tag["tag_id"], $tag_ids)) {
+                            echo '
+                                            <li class="form-check dropdown-item px-5">
+                                                <input name="tags[]" class="form-check-input" type="checkbox" value="' . $tag["tag_id"] . '" 
+                                                id="tag' . $tag["tag_id"] . '">
+                                                <label class="form-check-label" for="tags' . $tag["tag_id "] . '">' . $tag["tag_name"] . '</label>
+                                            </li>';
+                        }
+                    }
                     echo '
-                                test
+                                            <div class="dropdown-divider"></div>
+                                            <button id="addTagButton" name="addTag" value="' . $product["product_id"] . '" 
+                                            class="btn btn-primary p-2 m-2" type="submit">
+                                                <i class="fa-solid fa-plus"></i><span class="ms-2">Add New Tags</span>
+                                            </button>
+                                        </ul>
+                                    </form>
+                                </nav>
+                                <div class="list-group list-group-flush">';
+
+                    foreach ($tags as $tag) {
+                        echo '
+                                    <div class="list-group-item">
+                                        
+                                        <form method="post">
+                                            ' . $tag["tag_name"] . '
+                                            <input type="hidden" name="deleteTagProductId" value="' . $product["product_id"] . '">
+                                            <button id="deleteTagButton' . $tag["tag_id"] . '" class="btn" 
+                                            type="submit" name="deleteTag" value="' . $tag["tag_id"] . '">
+                                                <i class="fa-solid fa-trash-can text-danger"></i>
+                                            </button>
+                                        </form>
+                                    </div>';
+                    }
+                    echo '
+                                </div>
                             </div>
                         </td>
                     </tr>';
