@@ -335,7 +335,7 @@ $totalProducts = $result->fetch_assoc()["totalProducts"];
         </button>
     </div>
     
-    <div class="table-responsive table-scrollable mx-auto">
+    <div class="container table-responsive table-scrollable mx-auto">
         <table class="table table-hover mx-auto">
             <thead>
                 <tr>

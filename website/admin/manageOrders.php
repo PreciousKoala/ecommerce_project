@@ -162,8 +162,8 @@ $totalCancelled = $result->fetch_assoc()["totalCancelled"];
         </button>
     </div>
 
-    <div class="container table-responsive table-scrollable mx-auto">
-        <table class="table table-hover mx-auto table-fit">
+    <div class="container table-responsive table-scrollable">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th scope="col"></th>
