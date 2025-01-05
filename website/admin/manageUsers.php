@@ -122,9 +122,9 @@ $totalUsers = $result->fetch_assoc()["totalUsers"];
 </div>
 
 <main class="m-3">
-    <h1 class="text-center mb-2">Manage Users</h1>
-    
-    <div class="text-center my-2">Total Users: <?php echo $totalUsers; ?></div>
+    <h1 class="text-center mb-3">Manage Users</h1>
+
+    <div class="text-center mb-3">Total Users: <?php echo $totalUsers; ?></div>
 
     <div class="table-responsive table-scrollable">
         <table class="table table-hover table-fit">
@@ -139,6 +139,7 @@ $totalUsers = $result->fetch_assoc()["totalUsers"];
                     <th scope="col">Adress</th>
                     <th scope="col">Creation Date</th>
                     <th scope="col">Role</th>
+                    <th scope="col">Logs</th>
                     <th scope="col">Edit</th>
                     <th scope="col">Delete</th>
                 </tr>
@@ -146,10 +147,19 @@ $totalUsers = $result->fetch_assoc()["totalUsers"];
             <tbody>
                 <?php
                 foreach ($users as $user) {
+
+                    $sql = "SELECT * FROM userLogs WHERE user_id = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $user["user_id"]);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $logs = $result->fetch_all(MYSQLI_ASSOC);
+
                     $disabled = "";
                     if ($_SESSION["user"]["user_id"] == $user["user_id"]) {
                         $disabled = "disabled";
                     }
+
                     echo '<tr>
                         <th scope="row">' . $user["user_id"] . '</th>
                         <td>' . $user["email"] . '</td>
@@ -161,6 +171,12 @@ $totalUsers = $result->fetch_assoc()["totalUsers"];
                         <td class="text-wrap text-break">' . $user["created_at"] . '</td>
                         <td>' . $user["role"] . '</td>
                         <td>
+                            <button class="btn btn-secondary accordion-toggle" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#logsDropdown' . $user["user_id"] . '">
+                                <i class="fa-solid fa-file-lines"></i>
+                            </button>
+                        </td>
+                        <td>
                             <button id="editButtonModal' . $user["user_id"] . '" class="btn btn-secondary" type="button"
                              data-bs-toggle="modal" data-bs-target="#editModal" onclick="showUserDetails(this)">
                                 <i class="fa-solid fa-pen-to-square"></i>
@@ -171,6 +187,62 @@ $totalUsers = $result->fetch_assoc()["totalUsers"];
                              data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="showUserId(this)" ' . $disabled . '>
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="12" class="p-0">
+                            <div id="logsDropdown' . $user["user_id"] . '" class="accordion-body collapse">
+                                <div class="table-responsive table-scrollable">
+                                    <table class="table table-hover my-0">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Login</th>
+                                                <th scope="col">Logout</th>
+                                                <th scope="col">Duration</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>';
+
+                    foreach ($logs as $log) {
+                        $login = $log["login_datetime"];
+                        $logout = "-";
+                        $duration = "-";
+                        if ($log["logout_datetime"] != NULL) {
+                            $logout = $log["logout_datetime"];
+                            $from = date_create($login);
+                            $until = date_create($logout);
+                            $diff = date_diff($from, $until);
+
+                            $durationNums = array();
+                            if ($diff->days > 0) {
+                                $durationNums[] = $diff->days . " days";
+                            }
+                            if ($diff->h > 0) {
+                                $durationNums[] = $diff->h . " hours";
+                            }
+                            if ($diff->i > 0) {
+                                $durationNums[] = $diff->i . " minutes";
+                            }
+                            if ($diff->s > 0) {
+                                $durationNums[] = $diff->s . " seconds";
+                            }
+
+                            $duration =  implode(", ", $durationNums);
+                        }
+
+                        echo '
+                                            <tr>
+                                                <td>'.$login.'</td>
+                                                <td>'.$logout.'</td>
+                                                <td>'.$duration.'</td>
+                                            </tr>';
+                    }
+                
+                    echo '
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </td>
                     </tr>';
                 }

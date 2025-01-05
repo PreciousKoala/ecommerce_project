@@ -62,7 +62,7 @@ $totalCancelled = $result->fetch_assoc()["totalCancelled"];
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="infoModalLabel">Shop Order Statistics</h5>
+                <h5 class="modal-title" id="infoModalLabel">Order Statistics</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -158,7 +158,7 @@ $totalCancelled = $result->fetch_assoc()["totalCancelled"];
     <div class="mx-auto d-flex justify-content-center align-items-center mb-3">
         <button id="statsButton" class="btn btn-outline-dark p-2" type="button" data-bs-toggle="modal"
             data-bs-target="#statsModal">
-            <i class="fa-solid fa-chart-column"></i><span class="ms-2">View Shop Statistics</span>
+            <i class="fa-solid fa-chart-column"></i><span class="ms-2">View Order Statistics</span>
         </button>
     </div>
 

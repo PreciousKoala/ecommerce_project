@@ -27,10 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $sql = "INSERT INTO users (email, password, first_name, last_name, country, city, address) 
                 VALUES (?, ?, ?, ?, ?, ?, ?)";
-
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sssssss", $email, $password, $first_name, $last_name, $country, $city, $address);
-
         $stmt->execute();
 
         $user_id = mysqli_insert_id($conn);
@@ -45,6 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["user"]["role"] = "user";
 
         unset($_SESSION["register_error"]);
+
+        $sql = "INSERT INTO userLogs (user_id) VALUES (?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
 
         $subject = "Welcome to our website.";
         $body =

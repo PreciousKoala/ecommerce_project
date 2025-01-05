@@ -11,10 +11,6 @@
                 <i class="fa-solid fa-users"></i>
                 Manage Users
             </a></li>
-        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/admin/logFiles">
-                <i class="fa-solid fa-file-lines"></i>
-                View Log Files
-            </a></li>
         <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/admin/manageProducts.php">
                 <i class="fa-solid fa-boxes-stacked"></i>
                 Manage Products

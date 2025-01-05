@@ -321,7 +321,7 @@ $totalProducts = $result->fetch_assoc()["totalProducts"];
 <main class="m-3">
     <h1 class="text-center mb-3">Manage products</h1>
 
-    <div class="text-center my-2">Total Products: <?php echo $totalProducts; ?></div>
+    <div class="text-center mb-3">Total Products: <?php echo $totalProducts; ?></div>
 
     <div class="mx-auto d-flex justify-content-center align-items-center mb-3">
         <button id="createButton" class="btn btn-primary p-2" type="button" data-bs-toggle="modal"

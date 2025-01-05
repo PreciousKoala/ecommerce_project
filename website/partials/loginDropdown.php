@@ -23,8 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["user"]["role"] = $row["role"];
 
             unset($_SESSION["login_error"]);
-            header("Location: .");
-            exit();
+
+            $sql = "INSERT INTO userLogs (user_id) VALUES (?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $_SESSION["user"]["user_id"]);
+            $stmt->execute();
+
+            header("Refresh:0");
         } else {
             $_SESSION["login_error"] = "The password is incorrect.";
         }
@@ -40,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown"
         aria-expanded="false">
         <div>
-        <i class="fa-solid fa-right-to-bracket"></i>
+            <i class="fa-solid fa-right-to-bracket"></i>
             Login
         </div>
     </a>
@@ -57,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn-primary">Sign in</button>
         </form>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item rounded" href="<?php echo HTML_ROOT_DIR?>/website/register.php">Click here to create an
+        <a class="dropdown-item rounded" href="<?php echo HTML_ROOT_DIR ?>/website/register.php">Click here to create an
             account</a>
         <?php
         if (isset($_SESSION["login_error"])) {
