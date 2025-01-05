@@ -8,12 +8,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["deleteImage"])) {
         $image_id = intval($_POST["deleteImage"]);
 
-        $sql = "SELECT placement, product_id FROM images WHERE image_id = ?";
+        $sql = "SELECT image_name, placement, product_id FROM images WHERE image_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $image_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $image = $result->fetch_assoc();
+        $image_name = $image["image_name"];
         $placement = $image["placement"];
         $product_id = $image["product_id"];
 
@@ -26,6 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ii", $product_id, $placement);
         $stmt->execute();
+
+        $imagePath = ROOT_DIR . "/website/img/products/" . $image_name;
+        if (file_exists($imagePath)){
+            unlink($imagePath);
+        }
     }
 
     if (isset($_POST["addImage"])) {
@@ -37,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
         $result = $stmt->get_result();
         $maxPlacement = $result->fetch_assoc()["maxPlacement"] + 1;
-        echo $maxPlacement;
 
         $sql = "SELECT MAX(image_id) AS maxImageId FROM images";
         $stmt = $conn->prepare($sql);
@@ -331,7 +336,7 @@ $totalProducts = $result->fetch_assoc()["totalProducts"];
     </div>
     
     <div class="table-responsive table-scrollable mx-auto">
-        <table class="table table-hover table-fit mx-auto">
+        <table class="table table-hover mx-auto">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
