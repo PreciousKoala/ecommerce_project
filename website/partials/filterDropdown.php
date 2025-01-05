@@ -19,7 +19,12 @@
         }
     }
 
-    $getParams = $categoryGet . $tagGet . $sortByGet;
+    $searchGet = "";
+    if (isset($_GET["search"])) {
+        $searchGet .= "&search=" . $_GET["search"];
+    }
+
+    $getParams = $categoryGet . $tagGet . $sortByGet . $searchGet;
     ?>
     <ul class="dropdown-menu rounded border-1 border-secondary dropdown-menu-end" aria-labelledby="filterDropdown">
         <li><a class="dropdown-item" href="?sortBy=popular<?php echo $getParams; ?>">

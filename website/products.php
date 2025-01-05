@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $page = 1;
 $productsPerPage = 16;
 
-if (isset($_GET["page"])) {
+if (isset($_GET["page"]) && intval($_GET["page"]) > 0) {
     $page = intval($_GET["page"]);
 }
 
@@ -28,14 +28,21 @@ if (!isset($_GET["sortBy"])) {
     $sortBy = "ORDER BY p.sales DESC";
 }
 
+$where = [];
+$paramTypes = "";
+$params = [];
+
 if (!isset($_GET["category"])) {
     $categoryWhere = "";
 } elseif ($_GET["category"] == "other") {
     $categoryWhere = "p.category = 'Other'";
+    $where[] = $categoryWhere;
 } elseif ($_GET["category"] == "paper") {
     $categoryWhere = "p.category = 'Paper'";
+    $where[] = $categoryWhere;
 } elseif ($_GET["category"] == "book") {
     $categoryWhere = "p.category = 'Book'";
+    $where[] = $categoryWhere;
 }
 
 $tagsWhere = "";
@@ -44,34 +51,59 @@ if (isset($_GET["tag"])) {
     $tagsJoin = "JOIN productTags AS pt ON p.product_id = pt.product_id JOIN tags AS t ON pt.tag_id = t.tag_id";
     $tagsWhere = "(";
     foreach ($_GET["tag"] as $tag) {
-        $tagsWhere .= "t.tag_id = " . $tag . " OR ";
+        $tagsWhere .= "t.tag_id = ? OR ";
+        $params[] = intval($tag);
+        $paramTypes .= "i";
     }
     $tagsWhere = substr($tagsWhere, 0, -3);
     $tagsWhere .= ")";
+
+    $where[] = $tagsWhere;
 }
 
-if ($tagsWhere != "" && $categoryWhere != "") {
-    $where = "WHERE " . $tagsWhere . " AND " . $categoryWhere;
-} else if ($tagsWhere != "") {
-    $where = "WHERE " . $tagsWhere;
-} else if ($categoryWhere != "") {
-    $where = "WHERE " . $categoryWhere;
-} else {
-    $where = "";
+$searchWhere = "";
+if (isset($_GET["search"])) {
+    $searchWhere = "(p.name LIKE ? OR p.description LIKE ?)";
+    $params[] = "%" . $_GET["search"] . "%";
+    $params[] = "%" . $_GET["search"] . "%";
+    $paramTypes .= "ss";
+
+    $where[] = $searchWhere;
 }
+
+if (empty($where)){
+    $where = "";
+} else {
+    $where = "WHERE " . implode(" AND ", $where);
+}
+
+$params[] = $productsPerPage;
+$params[] = ($page - 1) * $productsPerPage;
+$paramTypes .= "ii";
 
 $sql = "SELECT * FROM products AS p " .
     $tagsJoin . " " . $where . " " . $sortBy .
-    " LIMIT " . $productsPerPage .
-    " OFFSET " . strval(($page - 1) * $productsPerPage);
-$result = $conn->query($sql);
+    " LIMIT ? OFFSET ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param($paramTypes, ...$params);
+$stmt->execute();
+$result = $stmt->get_result();
 $products = $result->fetch_all(MYSQLI_ASSOC);
 
+$params = array_slice($params, 0, -2);
 $sql = "SELECT COUNT(*) AS total FROM products AS p " . $tagsJoin . " " . $where;
-$result = $conn->query($sql);
+
+if (!empty($params)) {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param(substr($paramTypes, 0, -2), ...$params);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    $result = $conn->query($sql);
+}
+
 $totalProducts = $result->fetch_assoc()["total"];
 $totalPages = ceil($totalProducts / $productsPerPage);
-
 
 $title = "Products";
 include ROOT_DIR . "/website/partials/header.php";
@@ -95,8 +127,11 @@ include ROOT_DIR . "/website/partials/header.php";
             }
 
             foreach ($products as $product) {
-                $sql = "SELECT image_name FROM images WHERE placement = 1 AND product_id = " . $product["product_id"];
-                $result = $conn->query($sql);
+                $sql = "SELECT image_name FROM images WHERE placement = 1 AND product_id = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $product["product_id"]);
+                $stmt->execute();
+                $result = $stmt->get_result();
                 $image = $result->fetch_assoc()["image_name"];
 
                 if (!isset($image)) {

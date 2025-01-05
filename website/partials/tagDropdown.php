@@ -18,6 +18,10 @@
                 echo '<input type="hidden" name="sortBy" value="' . $_GET["sortBy"] . '">';
             }
 
+            if (isset($_GET["search"])) {
+                echo '<input type="hidden" name="search" value="' . $_GET["search"] . '">';
+            }
+
             $sql = "SELECT * FROM tags ORDER BY tag_category DESC";
             $result = $conn->query($sql);
             $tags = $result->fetch_all(MYSQLI_ASSOC);

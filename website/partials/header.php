@@ -158,12 +158,9 @@
                         </a>
                     </li>
                 </ul>
-                <form class="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0" action="" method="get">
-                    <input name="search" type="search" class="form-control" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-primary" id="searchButton" type="button">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </form>
+                <?php
+                include ROOT_DIR . "/website/partials/search.php";
+                ?>
             </div>
         </div>
     </nav>
