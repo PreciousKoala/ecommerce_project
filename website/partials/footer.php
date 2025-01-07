@@ -5,6 +5,7 @@
 <script src="<?php echo HTML_ROOT_DIR?>/website/js/bootstrap.bundle.min.js"></script>
 <script src="<?php echo HTML_ROOT_DIR?>/website/js/script.js"></script>
 <script src="<?php echo HTML_ROOT_DIR?>/website/js/cart.js"></script>
+<script src="<?php echo HTML_ROOT_DIR?>/website/js/voiceSearch.js"></script>
 
 </body>
 

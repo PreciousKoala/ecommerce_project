@@ -35,6 +35,7 @@ foreach ($lines as $line) {
 
 define("MAIL_USER", getenv("MAIL_USER"));
 define("MAIL_PASS", getenv("MAIL_PASS"));
+define("DEEPGRAM_API_KEY", getenv("DEEPGRAM_API_KEY"));
 
 // timezone set to GMT+2
 date_default_timezone_set("Europe/Athens");

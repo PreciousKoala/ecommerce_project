@@ -111,7 +111,15 @@ include ROOT_DIR . "/website/partials/header.php";
 
 <main>
     <div class="container my-5">
-        <h1 class="text-center mb-4">Products</h1>
+        
+
+        <?php
+        if (isset($_GET["search"]) && $_GET["search"] != ""){
+            echo '<h2 class="text-center mb-4">Results for &quot;'.$_GET["search"].'&quot;:</h2>';
+        } else {
+            echo '<h1 class="text-center mb-4">Products</h1>';
+        }
+        ?>
 
         <div class="row mb-5 justify-content-between">
             <?php
@@ -158,7 +166,7 @@ include ROOT_DIR . "/website/partials/header.php";
                     '<div class="container-fluid col-md-3 col-sm-6 col-6 mb-4">
                     <div class="card card-zoom h-100 border-0">
                         <div class="card-body">
-                            <img onmouseover="zoomImg(this)" src="' . HTML_ROOT_DIR . '/website/img/products/' . $image . '" 
+                            <img src="' . HTML_ROOT_DIR . '/website/img/products/' . $image . '" 
                                 class="card-img-top mb-3 rounded ' . $gray . '" alt="image">
                             <h6 class="card-title text-start">' . $product["name"] . '</h6>
                             <h5 class="card-text ' . $lineThrough . '">' . $product["price"] . '&euro;</h5>'

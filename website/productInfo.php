@@ -206,7 +206,7 @@ if (isset($_SESSION["user"])) {
             ?>
 
             <div class="row mb-5 justify-content-between my-4">
-                <div class="w-35 input-group text-center">
+                <div class="container col input-group text-center">
                     <button class="btn border-1 border-end-0 border-secondary rounded-start" type="button"
                         id="button-decrease" onclick="decreaseQuantity(<?php echo $product['stock'] ?>)">−</button>
                     <div class="form-floating">
@@ -219,7 +219,7 @@ if (isset($_SESSION["user"])) {
                     <button class="btn border-1 border-start-0 border-secondary rounded-end" type="button"
                         id="button-increase" onclick="increaseQuantity(<?php echo $product['stock'] ?>)">+</button>
                 </div>
-                <button class="btn btn-primary w-35 text-center" type="button"
+                <button class="container col btn btn-primary text-center" type="button"
                     onclick="addToCart(<?php echo $product['product_id'] . ', ' . $product['stock'] ?>)" <?php echo $disabled ?>>
                     Add to Cart
                 </button>

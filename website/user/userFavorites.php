@@ -81,7 +81,7 @@ $totalPages = ceil($totalProducts / $productsPerPage);
                 '<div class="container-fluid col-md-3 col-sm-6 col-6 mb-4">
                     <div class="card card-zoom h-100 border-0">
                         <div class="card-body">
-                            <img onmouseover="zoomImg(this)" src="' . HTML_ROOT_DIR . '/website/img/products/' . $image . '" 
+                            <img src="' . HTML_ROOT_DIR . '/website/img/products/' . $image . '" 
                                 class="card-img-top mb-3 rounded ' . $gray . '" alt="image">
                             <h6 class="card-title text-start">' . $favorite["name"] . '</h6>
                             <h5 class="card-text ' . $lineThrough . '">' . $favorite["price"] . '&euro;</h5>'
