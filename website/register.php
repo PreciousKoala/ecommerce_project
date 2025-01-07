@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $last_name = trim($_POST["last_name"]);
     $country = $_POST["country"];
     $city = $_POST["city"];
-    $address = trim($_POST["address"]);
+    $address = htmlspecialchars(trim($_POST["address"]));
 
     $sql = "SELECT email FROM users WHERE email = ?";
     $stmt = $conn->prepare($sql);

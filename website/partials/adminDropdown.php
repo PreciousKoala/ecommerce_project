@@ -7,19 +7,23 @@
         </div>
     </a>
     <ul class="dropdown-menu rounded border-1 border-black" aria-labelledby="adminDropdown">
-        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/admin/manageUsers.php">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR ?>/website/admin/manageUsers.php">
                 <i class="fa-solid fa-users"></i>
                 Manage Users
             </a></li>
-        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/admin/manageProducts.php">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR ?>/website/admin/manageProducts.php">
                 <i class="fa-solid fa-boxes-stacked"></i>
                 Manage Products
             </a></li>
-        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/admin/manageOrders.php">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR ?>/website/admin/manageOrders.php">
                 <i class="fa-solid fa-truck"></i>
                 Manage Orders
             </a></li>
-        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR?>/website/logout.php">
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR ?>/website/admin/viewFeedback.php">
+                <i class="fa-solid fa-comment"></i>
+                View Feedback
+            </a></li>
+        <li><a class="dropdown-item" href="<?php echo HTML_ROOT_DIR ?>/website/logout.php">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Logout
             </a></li>

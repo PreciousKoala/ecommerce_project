@@ -20,9 +20,8 @@ if ($result->num_rows == 0) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
-
     $rating = intval($_POST["heart"]);
-    $body = $_POST["reviewBody"];
+    $body = htmlspecialchars(trim($_POST["reviewBody"]));
     $sql = "INSERT INTO reviews (product_id, user_id, rating, body) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("iiis", $_GET["product_id"], $_SESSION["user"]["user_id"], $rating, $body);
