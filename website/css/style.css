@@ -30,14 +30,19 @@ body {
     min-width: 350px;
 }
 
-img {
+.ratio-1x1 {
     max-width: 100%;
     max-height: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
 }
 
-.img-contain{
+.ratio-16x9 {
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.img-contain {
     object-fit: contain !important;
 }
 
@@ -83,14 +88,21 @@ table.table-fit tfoot td {
     transform: scale(1.02);
 }
 
-.category-zoom {
-    transition: transform 0.3s ease;
-    transition: box-shadow 0.3s ease;
+.category-img {
+    opacity: 0.6 !important;
 }
 
-.category-zoom:hover {
+.category-card {
+    transition: transform 0.3s ease;
+    transition: box-shadow 0.3s ease;
+    background: linear-gradient(0deg, #00000088 30%, #ffffff44 100%);
+    text-shadow: 0 2px black;
+}
+
+.category-card:hover {
     transform: scale(1.02);
     box-shadow: 10px 10px 20px rgba(36, 36, 36, 0.5);
+    border: 0;
 }
 
 .img-gray {
