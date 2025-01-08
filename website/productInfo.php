@@ -144,13 +144,13 @@ if (isset($_SESSION["user"])) {
                 <div class="carousel-inner container">
                     <div class="carousel-item active" data-bs-interval="5000">
                         <img src="<?php echo HTML_ROOT_DIR . "/website/img/products/" . $images[0]["image_name"] ?>"
-                            class="d-block w-100 rounded <?php echo $gray ?>" alt="image">
+                            class="d-block w-100 rounded img-contain <?php echo $gray ?>" alt="image">
                     </div>
                     <?php
                     for ($i = 1; $i < count($images); $i++) {
                         echo '<div class="carousel-item" data-bs-interval="5000">
                 <img src="' . HTML_ROOT_DIR . '/website/img/products/' . $images[$i]["image_name"] . '" 
-                    class="d-block w-100 rounded ' . $gray . '" alt="image">
+                    class="d-block w-100 rounded img-contain' . $gray . '" alt="image">
             </div>';
                     }
                     ?>
@@ -276,7 +276,7 @@ if (isset($_SESSION["user"])) {
                                 <small class="text-muted">
                                     Posted at ' . date("F j Y, g:i A", strtotime($review["created_at"])) .
                         '</small><h6>
-                                <p class="text-wrap text-break">' . $review["body"] . '<p>
+                                <p class="text-wrap text-break">' . nl2br($review["body"]) . '<p>
                             </div>';
                 }
             }

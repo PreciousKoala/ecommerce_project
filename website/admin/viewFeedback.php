@@ -25,7 +25,7 @@ $feedbackList = $result->fetch_all(MYSQLI_ASSOC);
                             Posted at ' . date("F j Y, g:i A", strtotime($feedback["created_at"])) . '
                         </small>
                     <h6>
-                            <p class="text-wrap text-break">' . $feedback["feedback_body"] . '<p>
+                            <p class="text-wrap text-break">' . nl2br($feedback["feedback_body"]) . '<p>
                 </div>';
         }
         ?>

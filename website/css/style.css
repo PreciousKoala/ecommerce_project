@@ -37,6 +37,10 @@ img {
     object-fit: cover;
 }
 
+.img-contain{
+    object-fit: contain !important;
+}
+
 .nav-link.dropdown-toggle {
     display: inline-flex;
     align-items: center;
@@ -62,13 +66,14 @@ img {
 table.table-fit {
     width: auto !important;
     table-layout: auto !important;
-  }
-  table.table-fit thead th,
-  table.table-fit tbody td,
-  table.table-fit tfoot th,
-  table.table-fit tfoot td {
+}
+
+table.table-fit thead th,
+table.table-fit tbody td,
+table.table-fit tfoot th,
+table.table-fit tfoot td {
     width: auto !important;
-  }
+}
 
 .card-zoom {
     transition: transform 0.3s ease;
@@ -76,6 +81,16 @@ table.table-fit {
 
 .card-zoom:hover {
     transform: scale(1.02);
+}
+
+.category-zoom {
+    transition: transform 0.3s ease;
+    transition: box-shadow 0.3s ease;
+}
+
+.category-zoom:hover {
+    transform: scale(1.02);
+    box-shadow: 10px 10px 20px rgba(36, 36, 36, 0.5);
 }
 
 .img-gray {
