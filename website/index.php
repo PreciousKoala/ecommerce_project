@@ -10,7 +10,7 @@ include ROOT_DIR . "/website/partials/header.php";
 
     <div class="display-1 text-center my-5">Welcome!</div>
     <div class="row">
-        <div class="container-fluid col-md-4 col-sm-6 col-6 mb-4">
+        <div class="container-fluid col-md-4 col-sm-12 col-12 mb-4">
             <div class="card category-card card-zoom h-100 border-0">
                 <img src="<?php echo HTML_ROOT_DIR; ?>/website/img/papers.png"
                     class="card-img ratio ratio-16x9 rounded category-img" alt="image">
@@ -21,7 +21,7 @@ include ROOT_DIR . "/website/partials/header.php";
             </div>
         </div>
 
-        <div class="container-fluid col-md-4 col-sm-6 col-6 mb-4">
+        <div class="container-fluid col-md-4 col-sm-12 col-12 mb-4">
             <div class="card category-card card-zoom h-100 border-0">
                 <img src="<?php echo HTML_ROOT_DIR; ?>/website/img/books.png"
                     class="card-img ratio ratio-16x9 rounded category-img" alt="image">
@@ -32,7 +32,7 @@ include ROOT_DIR . "/website/partials/header.php";
             </div>
         </div>
 
-        <div class="container-fluid col-md-4 col-sm-6 col-6 mb-4">
+        <div class="container-fluid col-md-4 col-sm-12 col-12 mb-4">
             <div class="card category-card card-zoom h-100 border-0">
                 <img src="<?php echo HTML_ROOT_DIR; ?>/website/img/other.png"
                     class="card-img ratio ratio-16x9 rounded category-img" alt="image">
@@ -43,7 +43,7 @@ include ROOT_DIR . "/website/partials/header.php";
             </div>
         </div>
 
-        <div class="container-fluid col-md-4 col-sm-6 col-6 mb-4">
+        <div class="container-fluid col-md-4 col-sm-12 col-12 mb-4">
             <div class="card category-card card-zoom h-100 border-0">
                 <img src="<?php echo HTML_ROOT_DIR; ?>/website/img/all.png"
                     class="card-img ratio ratio-16x9 rounded category-img" alt="image">
@@ -54,7 +54,7 @@ include ROOT_DIR . "/website/partials/header.php";
             </div>
         </div>
 
-        <div class="container-fluid col-md-4 col-sm-6 col-6 mb-4">
+        <div class="container-fluid col-md-4 col-sm-12 col-12 mb-4">
             <div class="card category-card card-zoom h-100 border-0">
                 <img src="<?php echo HTML_ROOT_DIR; ?>/website/img/new.png"
                     class="card-img ratio ratio-16x9 rounded category-img" alt="image">
@@ -65,7 +65,7 @@ include ROOT_DIR . "/website/partials/header.php";
             </div>
         </div>
 
-        <div class="container-fluid col-md-4 col-sm-6 col-6 mb-4">
+        <div class="container-fluid col-md-4 col-sm-12 col-12 mb-4">
             <div class="card category-card card-zoom h-100 border-0">
                 <img src="<?php echo HTML_ROOT_DIR; ?>/website/img/top.png"
                     class="card-img ratio ratio-16x9 rounded category-img" alt="image">
