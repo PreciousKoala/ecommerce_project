@@ -1,9 +1,11 @@
 <?php
 // points to the directory ../website (whatever you name it), used for filepaths in php that need the server directory
+// ex: /opt/lampp/htdocs/e21155/my_files
 define("ROOT_DIR", __DIR__);
 
 // points to the directory of the website, used for hrefs in html code
 // removes server document root from ROOT_DIR
+// ex: /e21155/my_files
 define("HTML_ROOT_DIR", substr(ROOT_DIR, strlen($_SERVER["DOCUMENT_ROOT"])));
 
 // starts session
