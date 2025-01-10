@@ -1,7 +1,5 @@
 <?php
-include "../config.php";
-
-session_start();
+require "../config.php";
 
 $sql = "UPDATE userLogs 
         SET logout_datetime = current_timestamp() 

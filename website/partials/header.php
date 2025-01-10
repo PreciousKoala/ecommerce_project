@@ -133,11 +133,11 @@
 
                     <?php
                     if (!isset($_SESSION["user"])) {
-                        include ROOT_DIR . "/website/partials/loginDropdown.php";
+                        require ROOT_DIR . "/website/partials/loginDropdown.php";
                     } elseif ($_SESSION["user"]["role"] == "user") {
-                        include ROOT_DIR . "/website/partials/userDropdown.php";
+                        require ROOT_DIR . "/website/partials/userDropdown.php";
                     } elseif ($_SESSION["user"]["role"] == "admin") {
-                        include ROOT_DIR . "/website/partials/adminDropdown.php";
+                        require ROOT_DIR . "/website/partials/adminDropdown.php";
                     }
                     ?>
                     <li class="nav-item text-center mx-2 mx-lg-1">
@@ -159,7 +159,7 @@
                     </li>
                 </ul>
                 <?php
-                include ROOT_DIR . "/website/partials/search.php";
+                require ROOT_DIR . "/website/partials/search.php";
                 ?>
             </div>
         </div>

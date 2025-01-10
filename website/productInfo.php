@@ -1,8 +1,7 @@
 <?php
-include "../config.php";
-include ROOT_DIR . "/website/partials/dbConn.php";
+require "../config.php";
 $title = "Product Details";
-include ROOT_DIR . "/website/partials/header.php";
+require ROOT_DIR . "/website/partials/header.php";
 
 $sql = "SELECT * FROM products WHERE product_id = ?";
 $stmt = $conn->prepare($sql);
@@ -288,5 +287,5 @@ if (isset($_SESSION["user"])) {
 </main>
 
 <?php
-include ROOT_DIR . "/website/partials/footer.php";
+require ROOT_DIR . "/website/partials/footer.php";
 ?>

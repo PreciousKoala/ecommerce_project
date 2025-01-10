@@ -1,8 +1,8 @@
 <?php
-include "../config.php";
+require "../config.php";
 
 $title = "Home Page";
-include ROOT_DIR . "/website/partials/header.php";
+require ROOT_DIR . "/website/partials/header.php";
 
 ?>
 
@@ -134,5 +134,5 @@ include ROOT_DIR . "/website/partials/header.php";
 </main>
 
 <?php
-include ROOT_DIR . "/website/partials/footer.php";
+require ROOT_DIR . "/website/partials/footer.php";
 ?>

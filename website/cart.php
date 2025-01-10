@@ -1,8 +1,8 @@
 <?php
-include "../config.php";
+require "../config.php";
 
 $title = "Your Cart";
-include ROOT_DIR . "/website/partials/header.php";
+require ROOT_DIR . "/website/partials/header.php";
 
 $cart = json_decode($_COOKIE["cart"], true);
 $products = array();
@@ -132,5 +132,5 @@ for ($i = 0; $i < count($products); $i++) {
 </main>
 
 <?php
-include ROOT_DIR . "/website/partials/footer.php";
+require ROOT_DIR . "/website/partials/footer.php";
 ?>

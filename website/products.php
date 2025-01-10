@@ -1,5 +1,5 @@
 <?php
-include "../config.php";
+require "../config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -106,7 +106,7 @@ $totalProducts = $result->fetch_assoc()["total"];
 $totalPages = ceil($totalProducts / $productsPerPage);
 
 $title = "Products";
-include ROOT_DIR . "/website/partials/header.php";
+require ROOT_DIR . "/website/partials/header.php";
 ?>
 
 <main>
@@ -123,8 +123,8 @@ include ROOT_DIR . "/website/partials/header.php";
 
         <div class="row mb-5 justify-content-between">
             <?php
-            include ROOT_DIR . "/website/partials/tagDropdown.php";
-            include ROOT_DIR . "/website/partials/filterDropdown.php";
+            require ROOT_DIR . "/website/partials/tagDropdown.php";
+            require ROOT_DIR . "/website/partials/filterDropdown.php";
             ?>
         </div>
 
@@ -181,12 +181,12 @@ include ROOT_DIR . "/website/partials/header.php";
     </div>
     <?php
     if ($totalProducts > 0) {
-        include ROOT_DIR . "/website/partials/pagination.php";
+        require ROOT_DIR . "/website/partials/pagination.php";
     }
     ?>
 </main>
 
 
 <?php
-include ROOT_DIR . "/website/partials/footer.php";
+require ROOT_DIR . "/website/partials/footer.php";
 ?>

@@ -1,5 +1,5 @@
 <?php
-include "../config.php";
+require "../config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $title = "Register Account";
-include ROOT_DIR . "/website/partials/header.php";
+require ROOT_DIR . "/website/partials/header.php";
 ?>
 
 <main>
@@ -133,4 +133,4 @@ include ROOT_DIR . "/website/partials/header.php";
     </div>
 </main>
 
-<?php include ROOT_DIR . "/website/partials/footer.php"; ?>
+<?php require ROOT_DIR . "/website/partials/footer.php"; ?>

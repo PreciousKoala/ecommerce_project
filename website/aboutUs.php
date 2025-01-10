@@ -1,8 +1,8 @@
 <?php
-include "../config.php";
+require "../config.php";
 
 $title = "About Us";
-include ROOT_DIR . "/website/partials/header.php";
+require ROOT_DIR . "/website/partials/header.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $feedbackEmail = $_POST["feedbackEmail"];
@@ -85,5 +85,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </main>
 
 <?php
-include ROOT_DIR . "/website/partials/footer.php";
+require ROOT_DIR . "/website/partials/footer.php";
 ?>

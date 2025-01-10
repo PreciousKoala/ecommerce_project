@@ -1,8 +1,8 @@
 <?php
-include "../config.php";
+require "../config.php";
 
 $title = "Checkout";
-include ROOT_DIR . "/website/partials/header.php";
+require ROOT_DIR . "/website/partials/header.php";
 
 $cart = json_decode($_COOKIE["cart"], true);
 $products = array();
@@ -463,5 +463,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </main>
 
 <?php
-include ROOT_DIR . "/website/partials/footer.php";
+require ROOT_DIR . "/website/partials/footer.php";
 ?>
