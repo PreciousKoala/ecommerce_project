@@ -83,6 +83,7 @@ $totalCancelled = $result->fetch_assoc()["totalCancelled"];
                         Total Cancelled Orders: <?php echo $totalCancelled ?>
                     </h6>
                 </div>
+                <small class="text-muted">Statistics apply for non-cancelled orders.</small>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go Back</button>
