@@ -5,9 +5,11 @@
 </footer>
 
 <script src="<?php echo HTML_ROOT_DIR ?>/website/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo HTML_ROOT_DIR ?>/website/js/jquery-3.7.1.min.js"></script>
 <script src="<?php echo HTML_ROOT_DIR ?>/website/js/script.js"></script>
 <script src="<?php echo HTML_ROOT_DIR ?>/website/js/cart.js"></script>
 <script src="<?php echo HTML_ROOT_DIR ?>/website/js/voiceSearch.js"></script>
+<script src="<?php echo HTML_ROOT_DIR ?>/website/js/forcedJquery.js"></script>
 
 </body>
 
