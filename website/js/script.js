@@ -218,3 +218,9 @@ function unfillHeart() {
     document.getElementById("unfilledHeart").classList.remove("d-none");
     document.getElementById("heart").value = 0;
 }
+
+// for photo search
+
+function photoSearch() {
+    document.getElementById("photoForm").submit();
+}

@@ -434,7 +434,7 @@ $totalProducts = $result->fetch_assoc()["totalProducts"];
                             <div id="imageDropdown' . $product["product_id"] . '" class="accordion-body collapse">
                                 <form method="post" class="px-4 pt-4" enctype="multipart/form-data">
                                     <input class="form-control w-35" type="file" id="formFileMultiple" 
-                                    name="images[]" multiple required accept=".png, .jpeg, .jpg, .webp">
+                                    name="images[]" multiple required accept="image/*">
                                     <div class="text-muted my-2">Ratio should be close to 1:1.</div>
                                     <button id="addImageButton" name="addImage" value="' . $product["product_id"] . '" 
                                     class="btn btn-primary p-2" type="submit">
