@@ -66,7 +66,7 @@ $totalCancelled = $result->fetch_assoc()["totalCancelled"];
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div id="orderInfoList" class="list-group list-group-flush">
+                <div id="orderStatsList" class="list-group list-group-flush">
                     <h6 class="list-group-item">
                         Total Revenue: <?php echo $stats["totalRevenue"] ?>&euro;
                     </h6>
