@@ -1,10 +1,6 @@
 <?php
 require "../config.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-}
-
 $page = 1;
 $productsPerPage = 16;
 

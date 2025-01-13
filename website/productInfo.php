@@ -18,7 +18,7 @@ if ($result->num_rows == 0) {
     );
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["publishReview"])){
     $rating = intval($_POST["heart"]);
     $body = htmlspecialchars(trim($_POST["reviewBody"]));
     $sql = "INSERT INTO reviews (product_id, user_id, rating, body) VALUES (?, ?, ?, ?)";
@@ -248,7 +248,7 @@ if (isset($_SESSION["user"])) {
                         <label for="reviewBody" class="form-label">Body</label>
                         <div class="text-muted">Required</div>
                     </div>
-                    <button type="submit" class="btn btn-primary p-2">Publish Review</button>
+                    <button type="submit" name="publishReview" class="btn btn-primary p-2">Publish Review</button>
                 </form>';
             }
 
