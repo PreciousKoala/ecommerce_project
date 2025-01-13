@@ -47,7 +47,7 @@ if (empty($products)) {
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["checkoutButton"])) {
 
     $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
     $first_name = trim($_POST["first_name"]);
@@ -454,7 +454,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </button>
             </div>
             <div class="col-md-6 col-sm-12 mb-2 ms-auto">
-                <button type="submit" form="shippingForm" class="btn btn-primary p-3 w-100" onclick="showConfirmForm()">
+                <button type="submit" name="checkoutButton" form="shippingForm" class="btn btn-primary p-3 w-100" onclick="showConfirmForm()">
                     Confirm Order
                 </button>
             </div>

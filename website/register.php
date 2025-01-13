@@ -1,7 +1,7 @@
 <?php
 require "../config.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registerButton"])) {
     $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
     $password = $_POST["password"];
     $first_name = trim($_POST["first_name"]);
@@ -127,7 +127,7 @@ require ROOT_DIR . "/website/partials/header.php";
                 <input type="text" class="form-control" id="address" name="address">
                 <label for="address" class="form-label">Address</label>
             </div>
-            <button type="submit" class="btn btn-primary p-3 px-4">Register</button>
+            <button type="submit" name="registerButton" class="btn btn-primary p-3 px-4">Register</button>
             <div class="form-text">*Required fields</div>
         </form>
     </div>

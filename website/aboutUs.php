@@ -4,7 +4,7 @@ require "../config.php";
 $title = "About Us";
 require ROOT_DIR . "/website/partials/header.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["feedbackButton"])) {
     $feedbackEmail = $_POST["feedbackEmail"];
     $feedbackBody = htmlspecialchars(trim($_POST["feedbackBody"]));
     $sql = "INSERT INTO feedback (feedback_email, feedback_body) VALUES (?, ?)";
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="feedbackBody" class="form-label">Body</label>
                         </div>
                         <div class="text-muted mb-3">All Fields Required</div>
-                        <button type="submit" class="btn btn-primary p-2">Send Feedback</button>
+                        <button type="submit" name="feedbackButton" class="btn btn-primary p-2">Send Feedback</button>
                     </form>
                 </div>
             </div>
