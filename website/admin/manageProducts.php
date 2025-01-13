@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
 
         $imagePath = ROOT_DIR . "/website/img/products/" . $image_name;
-        if (file_exists($imagePath)){
+        if (file_exists($imagePath)) {
             unlink($imagePath);
         }
     }
@@ -288,7 +288,8 @@ $totalProducts = $result->fetch_assoc()["totalProducts"];
                     </div>
                     <div class="input-group form-floating mb-3">
                         <input type="text" value="" class="form-control" id="editDiscount" name="editDiscount" required
-                            min="0" max="100" pattern="[0-9]{1,2}" inputmode="numeric" aria-describedby="editPercentOff">
+                            min="0" max="100" pattern="[0-9]{1,2}" inputmode="numeric"
+                            aria-describedby="editPercentOff">
                         <span class="input-group-text" id="editPercentOff">% OFF</span>
                         <label for="editDiscount">Discount</label>
                     </div>
@@ -334,7 +335,7 @@ $totalProducts = $result->fetch_assoc()["totalProducts"];
             <i class="fa-solid fa-plus"></i><span class="ms-2">Create New Product</span>
         </button>
     </div>
-    
+
     <div class="container table-responsive table-scrollable mx-auto">
         <table class="table table-hover mx-auto">
             <thead>
@@ -481,7 +482,7 @@ $totalProducts = $result->fetch_assoc()["totalProducts"];
                     }
 
                     foreach ($allTags as $tag) {
-                        if (!in_array($tag["tag_id"], $tag_ids)) {
+                        if (!in_array($tag["tag_id"], $tag_ids) && $tag["tag_category"] == $product["category"]) {
                             echo '
                                             <li class="form-check dropdown-item px-5">
                                                 <input name="tags[]" class="form-check-input" type="checkbox" value="' . $tag["tag_id"] . '" 

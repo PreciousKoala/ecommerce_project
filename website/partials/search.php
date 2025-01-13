@@ -19,17 +19,17 @@
     <input id="search" name="search" type="search" class="form-control border-end-0" placeholder="Search"
         aria-label="Search" />
 
-    <button type="button" class="btn btn-light bg-white border-start-0" id="voiceInputButton"
-        onclick="voiceSearch('<?php echo DEEPGRAM_API_KEY; ?>')">
-        <i class="fa-solid fa-microphone"></i>
-    </button>
-
     <input id="photo" name="photo" type="file" form="photoForm" accept="image/*" class="d-none"
         onchange="photoSearch()" />
-    <button class="btn btn-light bg-white border-start-0" type="button">
+    <button class="btn btn-light bg-white border-start-0 border-end-0" type="button">
         <label for="photo">
             <i class="fa-solid fa-camera"></i>
         </label>
+    </button>
+
+    <button type="button" class="btn btn-light bg-white border-start-0" id="voiceInputButton"
+        onclick="voiceSearch('<?php echo DEEPGRAM_API_KEY; ?>')">
+        <i class="fa-solid fa-microphone"></i>
     </button>
 
     <button class="btn btn-primary" id="searchButton" type="submit">

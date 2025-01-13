@@ -81,7 +81,7 @@ $params[] = $productsPerPage;
 $params[] = ($page - 1) * $productsPerPage;
 $paramTypes .= "ii";
 
-$sql = "SELECT * FROM products AS p " .
+$sql = "SELECT DISTINCT * FROM products AS p " .
     $tagsJoin . " " . $where . " " . $sortBy .
     " LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
@@ -91,7 +91,7 @@ $result = $stmt->get_result();
 $products = $result->fetch_all(MYSQLI_ASSOC);
 
 $params = array_slice($params, 0, -2);
-$sql = "SELECT COUNT(*) AS total FROM products AS p " . $tagsJoin . " " . $where;
+$sql = "SELECT COUNT(DISTINCT p.product_id) AS total FROM products AS p " . $tagsJoin . " " . $where;
 
 if (!empty($params)) {
     $stmt = $conn->prepare($sql);
@@ -112,7 +112,6 @@ require ROOT_DIR . "/website/partials/header.php";
 <main>
     <div class="container my-5">
         
-
         <?php
         if (isset($_GET["search"]) && $_GET["search"] != ""){
             echo '<h2 class="text-center mb-4">Results for &quot;'.$_GET["search"].'&quot;:</h2>';
