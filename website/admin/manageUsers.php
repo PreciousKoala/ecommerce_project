@@ -126,8 +126,8 @@ $totalUsers = $result->fetch_assoc()["totalUsers"];
 
     <div class="text-center mb-3">Total Users: <?php echo $totalUsers; ?></div>
 
-    <div class="container table-responsive table-scrollable">
-        <table class="table table-hover table-fit">
+    <div class="container table-responsive table-scrollable mx-auto">
+        <table class="table table-hover mx-auto">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
