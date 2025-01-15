@@ -1,7 +1,7 @@
 <?php
 include "../../config.php";
 include ROOT_DIR . "/website/partials/kickNonAdmins.php";
-$title = "Manage Users";
+$title = "Feedback";
 include ROOT_DIR . "/website/partials/header.php";
 
 $sql = "SELECT * FROM feedback ORDER BY created_at DESC";
