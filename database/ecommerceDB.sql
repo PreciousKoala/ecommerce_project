@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 13, 2025 at 07:52 PM
+-- Generation Time: Jan 15, 2025 at 01:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,7 +39,12 @@ CREATE TABLE `favorites` (
 
 INSERT INTO `favorites` (`product_id`, `user_id`, `added_at`) VALUES
 (2, 1, '2024-12-23 12:03:14'),
-(160, 1, '2025-01-13 19:37:26');
+(160, 1, '2025-01-13 19:37:26'),
+(1, 1, '2025-01-15 00:02:11'),
+(144, 1, '2025-01-15 00:02:22'),
+(145, 1, '2025-01-15 00:02:27'),
+(146, 1, '2025-01-15 00:02:33'),
+(182, 1, '2025-01-15 00:02:54');
 
 -- --------------------------------------------------------
 
@@ -53,6 +58,15 @@ CREATE TABLE `feedback` (
   `feedback_body` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`feedback_id`, `feedback_email`, `feedback_body`, `created_at`) VALUES
+(3, 'basilissarantis@gmail.com', 'This website is kinda shit.', '2025-01-15 13:28:15'),
+(4, 'bobmarley@gmail.com', 'You should add a star system to the reviews instead of a like button.', '2025-01-15 13:29:44'),
+(5, 'margy@unipi.gr', 'This website needs more payment options.', '2025-01-15 13:34:48');
 
 -- --------------------------------------------------------
 
@@ -215,7 +229,13 @@ INSERT INTO `orderProducts` (`order_id`, `product_id`, `quantity`, `price`, `ret
 (19, 161, 1, 30, 0),
 (20, 160, 3, 26, 0),
 (21, 184, 1, 9, 0),
-(22, 164, 10, 3, 0);
+(22, 164, 10, 3, 4),
+(23, 166, 10, 26, 0),
+(24, 144, 1, 55, 0),
+(24, 143, 1, 40, 0),
+(24, 183, 2, 9, 0),
+(24, 181, 4, 16, 0),
+(25, NULL, 17, 123, 0);
 
 -- --------------------------------------------------------
 
@@ -246,7 +266,10 @@ INSERT INTO `orders` (`order_id`, `user_id`, `order_email`, `order_first_name`, 
 (19, 1, 'basilissarantis@gmail.com', 'Bill', 'Sarantis', 'Greece', 'Alimos', 'Homeless', '2025-01-13 18:26:52', NULL),
 (20, 1, 'basilissarantis@gmail.com', 'Bill', 'Sarantis', 'Greece', 'Alimos', 'Homeless', '2025-01-13 19:38:10', NULL),
 (21, 1, 'basilissarantis@gmail.com', 'Bill', 'Sarantis', 'Greece', 'Alimos', 'Homeless', '2025-01-13 19:38:50', NULL),
-(22, 1, 'basilissarantis@gmail.com', 'Bill', 'Sarantis', 'Greece', 'Alimos', 'Homeless', '2025-01-13 19:45:17', NULL);
+(22, 1, 'basilissarantis@gmail.com', 'Bill', 'Sarantis', 'Greece', 'Alimos', 'Homeless', '2025-01-13 19:45:17', NULL),
+(23, 1, 'basilissarantis@gmail.com', 'Bill', 'Sarantis', 'Greece', 'Alimos', 'Homeless', '2025-01-14 22:17:08', NULL),
+(24, 1, 'basilissarantis@gmail.com', 'Bill', 'Sarantis', 'Greece', 'Alimos', 'Homeless', '2025-01-14 23:37:46', NULL),
+(25, 8, 'basilissarantis@gmail.com', 'Αργυρώ', 'Μαυρογιώργου', 'Greece', 'Piraeus', 'Homeful', '2025-01-15 11:50:34', NULL);
 
 -- --------------------------------------------------------
 
@@ -273,8 +296,8 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`product_id`, `name`, `price`, `stock`, `description`, `sales`, `category`, `discount`, `created_at`) VALUES
 (1, '75cm Super large size SAOC Color Paper, Double-sided extra large', 26.00, 197, '60gsm, each size with different colors\r\n\r\n75cm*75cm，15sheets', 43, 'Paper', 0.00, '2024-12-18 22:11:11'),
 (2, 'Origami Works of Takashi Hojyo', 48.00, 96, 'Origami Works of Takashi Hojyo\r\n\r\nModel Design and Diagrams : Takashi Hojyo\r\nEditor : Makoto Yamaguchi\r\nBilingual (Japanese and English)\r\n\r\nSize : B5 (18.2cm X 25.7cm)\r\nPages : 212(includes 4 pages of color photo)\r\n11 models', 4, 'Book', 0.00, '2024-12-18 22:11:11'),
-(143, 'Origami Works of Gen Hagiwara', 40.00, 100, 'Model Design and Diagrams : Gen Hagiwara\r\nEditor : Makoto Yamaguchi / Translator : Koichi Tateishi\r\nBilingual (Japanese and English)\r\n\r\n\r\nSize : B5 (18.2cm X 25.7cm)\r\nPages : 180 (includes 4 pages of color photo)\r\n20 models', 0, 'Book', 0.20, '2025-01-13 12:06:55'),
-(144, 'Origami Works of Satoshi Kamiya', 55.00, 50, 'Model Design and Diagrams : Satoshi Kamiya\r\nEditor : Makoto Yamaguchi / Translator : Koichi Tateishi\r\nBilingual (Japanese and English)\r\n\r\nSize : B5 (18.2cm X 25.7cm)\r\nPages : 228 (includes 4 pages of color photo)\r\n19 models', 50, 'Book', 0.00, '2025-01-13 12:13:14'),
+(143, 'Origami Works of Gen Hagiwara', 40.00, 99, 'Model Design and Diagrams : Gen Hagiwara\r\nEditor : Makoto Yamaguchi / Translator : Koichi Tateishi\r\nBilingual (Japanese and English)\r\n\r\n\r\nSize : B5 (18.2cm X 25.7cm)\r\nPages : 180 (includes 4 pages of color photo)\r\n20 models', 1, 'Book', 0.20, '2025-01-13 12:06:55'),
+(144, 'Origami Works of Satoshi Kamiya', 55.00, 49, 'Model Design and Diagrams : Satoshi Kamiya\r\nEditor : Makoto Yamaguchi / Translator : Koichi Tateishi\r\nBilingual (Japanese and English)\r\n\r\nSize : B5 (18.2cm X 25.7cm)\r\nPages : 228 (includes 4 pages of color photo)\r\n19 models', 51, 'Book', 0.00, '2025-01-13 12:13:14'),
 (145, 'Origami Works of Satoshi Kamiya 2', 55.00, 50, 'Works of Satoshi Kamiya 2\r\n\r\nModel Design and Diagrams : Satoshi Kamiya\r\nEditor : Makoto Yamaguchi / Translator : Koichi Tateishi\r\nBilingual (Japanese and English)\r\n\r\nSize : B5 (18.2cm X 25.7cm)\r\nPages : 232 (includes 8 pages of color photo)\r\n16 models', 30, 'Book', 0.00, '2025-01-13 12:15:14'),
 (146, 'Origami Works of Satoshi Kamiya 3', 55.00, 50, 'Origami Works of Satoshi Kamiya 3\r\n\r\nModel Design and Diagrams : Satoshi Kamiya\r\nEditor : Makoto Yamaguchi / Translator : Koichi Tateishi\r\nBilingual (Japanese and English)\r\n\r\nSize : B5 (18.2cm X 25.7cm)\r\nPages : 232 (includes 8 pages of color photo)\r\n15 models', 20, 'Book', 0.00, '2025-01-13 12:16:45'),
 (147, 'Origami Works of Kyohei Katsuta', 40.00, 100, 'Model Design and Diagrams : Kyohei Katsuta\r\nEditor : Makoto Yamaguchi / Translator : Koichi Tateishi\r\nBilingual (Japanese and English)\r\n\r\nSize : B5 (18.2cm X 25.7cm)\r\nPages : 180 (includes 4 pages of color photo)\r\n13 models', 0, 'Book', 0.50, '2025-01-13 12:18:16'),
@@ -296,7 +319,7 @@ INSERT INTO `products` (`product_id`, `name`, `price`, `stock`, `description`, `
 (163, 'New Generation of Origami 2', 40.00, 30, '', 0, 'Book', 0.00, '2025-01-13 13:02:56'),
 (164, 'Japan foil paper KOMA', 2.50, 290, 'Foil paper\r\nExtremely thin\r\n10 colors\r\ntotal 12 sheets\r\n30gsm', 110, 'Paper', 0.00, '2025-01-13 13:40:59'),
 (165, 'Hanji paper thin for complex origami double sided', 30.00, 27, 'hanji paper\r\n~40gsm\r\n11 colors\r\n16 sheets\r\n60 cm', 47, 'Paper', 0.00, '2025-01-13 13:44:31'),
-(166, 'SAOC-Miogami,Washi paper, Thin and strong, Super Complex Origami', 26.00, 10, '50cm\r\n12 sheets\r\n\r\nQualities:\r\n\r\n1. For complex models: it is thin and quite strong, even thinker layers~\r\n\r\n2. Surface texture: Japanese traditional origami texture, but does not shed hair and color\r\n\r\n3. For Tessellations: easy to fold and thin, with the light, it is beautiful~', 20, 'Paper', 0.00, '2025-01-13 13:50:23'),
+(166, 'SAOC-Miogami,Washi paper, Thin and strong, Super Complex Origami', 26.00, 0, '50cm\r\n12 sheets\r\n\r\nQualities:\r\n\r\n1. For complex models: it is thin and quite strong, even thinker layers~\r\n\r\n2. Surface texture: Japanese traditional origami texture, but does not shed hair and color\r\n\r\n3. For Tessellations: easy to fold and thin, with the light, it is beautiful~', 30, 'Paper', 0.00, '2025-01-13 13:50:23'),
 (167, 'Origami Tanteidan Convention Vol. 19', 30.00, 20, NULL, 0, 'Book', 0.00, '2025-01-13 13:55:44'),
 (168, 'Origami Tanteidan Convention Vol. 20', 30.00, 20, NULL, 0, 'Book', 0.00, '2025-01-13 13:56:39'),
 (169, 'Origami Tanteidan Convention Vol. 21', 30.00, 20, NULL, 0, 'Book', 0.00, '2025-01-13 13:56:39'),
@@ -311,9 +334,9 @@ INSERT INTO `products` (`product_id`, `name`, `price`, `stock`, `description`, `
 (178, 'Pack Washi Deluxe', 14.00, 30, '24cm\r\n14 sheets', 0, 'Paper', 0.00, '2025-01-13 14:09:54'),
 (179, 'Pack Sandwich Papers (Double Colored)', 23.00, 30, '40cm\r\n10 sheets\r\nSides have different colors', 0, 'Paper', 0.00, '2025-01-13 14:12:03'),
 (180, 'Pack Sandwich Papers (White Side)', 23.00, 28, '40cm\r\n10 sheets', 2, 'Paper', 0.00, '2025-01-13 14:13:17'),
-(181, 'Elephant Hide Paper', 16.00, 30, '(((Not actual elephant skin)))\r\n\r\nIvory (total 36 sheets) 34cm/24 sheets+28cm/12sheets', 0, 'Paper', 0.50, '2025-01-13 14:17:03'),
+(181, 'Elephant Hide Paper', 16.00, 26, '(((Not actual elephant skin)))\r\n\r\nIvory (total 36 sheets) 34cm/24 sheets+28cm/12sheets', 4, 'Paper', 0.50, '2025-01-13 14:17:03'),
 (182, 'Biotope Origami Paper', 12.00, 45, '50cm\r\n13 sheets\r\n53 gsm', 5, 'Paper', 0.00, '2025-01-13 14:19:41'),
-(183, 'Satogami Origami Paper', 8.90, 50, '50cm\r\n6 sheets\r\n80 gsm', 0, 'Paper', 0.00, '2025-01-13 14:26:00'),
+(183, 'Satogami Origami Paper', 8.90, 48, '50cm\r\n6 sheets\r\n80 gsm', 2, 'Paper', 0.00, '2025-01-13 14:26:00'),
 (184, 'Jade Paper', 9.00, 29, '20cm\r\n20 sheets\r\n50 gsm', 1, 'Paper', 0.00, '2025-01-13 14:41:19'),
 (185, 'ALVIN GBM Self-Healing Cutting Mat', 35.00, 29, '18 x 24 inch\r\nDouble-Sided Green/Black\r\n5-Layer Gridded Surface for Arts, Crafts and Sewing - Model GBM1824', 1, 'Other', 0.00, '2025-01-13 14:49:04'),
 (186, 'Stanley 10-280 18 mm Quick-Point Snap-Off Knife', 7.00, 19, '-Made with stainless steel and high impact polymer components.\r\n    -The smooth slider mechanism features an audible &quot;click-stop&quot; and is self locking for security.\r\n    -Blade sections snap-off providing the user with fresh, sharp cutting points.\r\n    -Removable blade snapper included in cap of knife.\r\n    -High visibility spare blade holder designed for safety.\r\n    -6-3/4&quot; (179mm) handle length\r\n    -Made with stainless steel and high impact polymer components\r\n    -Smooth slider mechanism features an audible &quot;click&quot; and is self-locking for security\r\n    -Blade sections snap off to provide fresh, sharp cutting points. Removable blade snapper included in cap of knife\r\n    -Limited Lifetime Warranty', 1, 'Other', 0.00, '2025-01-13 14:52:25');
@@ -402,7 +425,8 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`review_id`, `product_id`, `user_id`, `rating`, `body`, `created_at`) VALUES
-(23, 164, 1, 1, 'this paper cured my cancer', '2025-01-13 19:45:43');
+(23, 164, 1, 1, 'this paper cured my cancer', '2025-01-13 19:45:43'),
+(24, 160, 1, 1, 'This book is good, blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah \r\n\r\n\r\nblaaaaaaaah', '2025-01-14 22:25:40');
 
 -- --------------------------------------------------------
 
@@ -482,7 +506,17 @@ INSERT INTO `userLogs` (`user_id`, `login_datetime`, `logout_datetime`) VALUES
 (1, '2025-01-13 19:41:17', '2025-01-13 19:43:37'),
 (1, '2025-01-13 19:43:49', '2025-01-13 19:44:19'),
 (1, '2025-01-13 19:44:33', '2025-01-13 19:54:11'),
-(8, '2025-01-13 19:54:17', NULL);
+(8, '2025-01-13 19:54:17', '2025-01-13 21:10:06'),
+(1, '2025-01-14 20:36:23', '2025-01-14 20:36:42'),
+(1, '2025-01-14 20:55:28', '2025-01-15 00:14:07'),
+(8, '2025-01-15 00:20:37', '2025-01-15 11:48:36'),
+(1, '2025-01-15 11:48:39', '2025-01-15 11:49:34'),
+(8, '2025-01-15 11:49:37', '2025-01-15 13:24:55'),
+(1, '2025-01-15 13:25:00', '2025-01-15 13:34:51'),
+(8, '2025-01-15 13:34:54', '2025-01-15 13:51:55'),
+(1, '2025-01-15 13:52:41', '2025-01-15 13:56:24'),
+(8, '2025-01-15 13:56:28', '2025-01-15 14:03:00'),
+(1, '2025-01-15 14:13:02', NULL);
 
 -- --------------------------------------------------------
 
@@ -612,7 +646,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `images`
@@ -624,19 +658,19 @@ ALTER TABLE `images`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 
 --
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `tags`

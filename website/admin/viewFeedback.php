@@ -19,13 +19,13 @@ $feedbackList = $result->fetch_all(MYSQLI_ASSOC);
         <?php
         foreach ($feedbackList as $feedback) {
             echo '<div class="mb-4">
-                    <h6 class="text-wrap text-break">' . $feedback["feedback_email"] . '</h6>
+                    <h5 class="text-wrap text-break">' . $feedback["feedback_email"] . '</h5>
                     <h6>
                         <small class="text-muted">
                             Posted at ' . date("F j Y, g:i A", strtotime($feedback["created_at"])) . '
                         </small>
                     <h6>
-                            <p class="text-wrap text-break">' . nl2br($feedback["feedback_body"]) . '<p>
+                    <p class="text-wrap text-break">' . nl2br($feedback["feedback_body"]) . '<p>
                 </div>';
         }
         ?>
